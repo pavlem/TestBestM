@@ -1,22 +1,37 @@
 ﻿{
   "stationData": [
     {
+      "id": "1",
+      "name": "Station 1",
+      "type": "Driverless bus",
       "latitude": 46.517202,
       "longitude": 6.629205
     },
     {
+      "id": "2",
+      "name": "Station 2",
+      "type": "Driverless bus",
       "latitude": 46.541050,
       "longitude": 6.658185
     },
     {
+      "id": "3",
+      "name": "Station 3",
+      "type": "Driverless bus",
       "latitude": 46.541724,
       "longitude": 6.618336
     },
     {
+      "id": "4",
+      "name": "Station 4",
+      "type": "Driverless bus",
       "latitude": 46.522044,
       "longitude": 6.565975
     },
     {
+      "id": "5",
+      "name": "Station 5",
+      "type": "Driverless bus",
       "latitude": 46.511076,
       "longitude": 6.659613
     }

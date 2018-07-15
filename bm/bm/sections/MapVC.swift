@@ -29,41 +29,7 @@ class MapVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-//        let fff = loadJsonFrom(fileNamed: "stationMOCList")
-        
-        
-        if let path = Bundle.main.path(forResource: "stationMOCList", ofType: "json") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
-                if let jsonResult = jsonResult as? Dictionary<String, AnyObject>, let stationData = jsonResult["stationData"] as? [Any] {
-                    let stations = parseDict(stationData: stationData)
-                    print("==========")
-                    // do stuff
-                }
-            } catch {
-                // handle error
-                print("====")
-            }
-        }
-        
-        
-        
         set(mapView: self.mapView)
-    }
-    
-    func parseDict(stationData: [Any]) -> [Station] {
-        
-        var stations = [Station]()
-        
-        for st in stationData {
-            let stationObj = Station(json: st as! [String : Any])
-            stations.append(stationObj)
-        }
-        
-        return stations
-        
     }
     
     // MARK: - Helper
@@ -101,11 +67,6 @@ extension MapVC: MKMapViewDelegate {
         
         return annotationView
     }
-    
-//    stationsMOC.txt
-    
-    
-    
     
     func loadJsonFrom(fileNamed fileName: String) -> NSDictionary {
         

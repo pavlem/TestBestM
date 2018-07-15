@@ -27,42 +27,48 @@ class MainVC: UIViewController {
     @IBAction func getStations(_ sender: UIButton) {
         self.getStationsBtn.isEnabled = false
         
-        fetchStations {
-            //            let sb = UIStoryboard(name: "Main", bundle: nil)
-            //            let vc = sb.instantiateViewController(withIdentifier: "MapVC_ID")
-            //            self.show(vc, sender: nil)
-            
-            self.performSegue(withIdentifier: Segue.mapVC, sender: nil)
-        }
-    }
-    
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let mapVC = segue.destination as? MapVC {
-            mapVC.set(navigationTitle: "Map List")
+        fetchStations { (stations) in
+            let mapVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardID.mapVC) as! MapVC
+            mapVC.set(navigationTitle: "Map List PAJA")
             mapVC.set(stations: stations)
+            self.show(mapVC, sender: nil)
         }
     }
     
     // MARK: - Helper
-    private func fetchStations(completion: @escaping () -> Void) {
-        
+    // TODO: - Move to parser file
+    private func parseDict(stationData: [Any]) -> [Station] {
+        var stations = [Station]()
+        for st in stationData {
+            let stationObj = Station(json: st as! [String : Any])
+            stations.append(stationObj)
+        }
+        return stations
+    }
+    
+    
+    private func fetchStations(completion: @escaping ([Station]) -> Void) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         DispatchQueue.global(qos: .background).async {
-//            sleep(1)
             
-//            let st1 = Station(name: "Station 1", type: "Driverless bus", latitude: 46.517202, longitude: 6.629205)
-//            let st2 = Station(name: "Station 2", type: "Driverless bus", latitude: 46.541050, longitude: 6.658185)
-//            let st3 = Station(name: "Station 3", type: "Driverless bus", latitude: 46.541724, longitude: 6.618336)
-//            let st4 = Station(name: "Station 4", type: "Driverless bus", latitude: 46.522044, longitude: 6.565975)
-//            let st5 = Station(name: "Station 5", type: "Driverless bus", latitude: 46.511076, longitude: 6.659613)
-//    
-//            self.stations = [st1, st2, st3, st4, st5]
+            sleep(1)
+            var stationsLocal = [Station]()            
+            if let path = Bundle.main.path(forResource: "stationMOCList", ofType: "json") {
+                do {
+                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                    let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+                    if let jsonResult = jsonResult as? Dictionary<String, AnyObject>, let stationData = jsonResult["stationData"] as? [Any] {
+                        stationsLocal = self.parseDict(stationData: stationData)
+                    }
+                } catch {
+                    print("Error")
+                }
+            }
             
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                completion()
+                completion(stationsLocal)
             }
         }
     }

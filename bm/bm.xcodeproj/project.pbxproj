@@ -147,9 +147,9 @@
 			isa = PBXGroup;
 			children = (
 				9EEC699220FB440100B09525 /* AppDelegate.swift */,
+				9EEC699620FB440100B09525 /* Main.storyboard */,
 				9EEC699B20FB440300B09525 /* LaunchScreen.storyboard */,
 				9EEC699920FB440300B09525 /* Assets.xcassets */,
-				9EEC699620FB440100B09525 /* Main.storyboard */,
 			);
 			path = resources;
 			sourceTree = "<group>";

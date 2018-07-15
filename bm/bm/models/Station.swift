@@ -6,7 +6,7 @@
 //  Copyright © 2018 Pavle Mijatovic. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CoreLocation
 import MapKit
 
@@ -16,23 +16,27 @@ class Station: NSObject {
     let type: String
     let location: CLLocation
     
-    init(name: String, type: String, lat: Double, long: Double) {
+    init(name: String, type: String, latitude: Double, longitude: Double) {
         self.name = name
         self.type = type
-        self.location = CLLocation(latitude: lat, longitude: long)
+        self.location = CLLocation(latitude: latitude, longitude: longitude)
     }
 }
 
 extension Station: MKAnnotation {
     var coordinate: CLLocationCoordinate2D {
-        return location.coordinate
+        get {
+            return location.coordinate
+        }
     }
-    
     var title: String? {
-        return name
+        get {
+            return name
+        }
     }
-    
     var subtitle: String? {
-        return type
+        get {
+            return type
+        }
     }
 }

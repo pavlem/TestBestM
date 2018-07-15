@@ -52,11 +52,11 @@ class MainVC: UIViewController {
         DispatchQueue.global(qos: .background).async {
             sleep(1)
             
-            let st1 = Station(name: "Station 1", type: "Driverless bus", lat: 46.517202, long: 6.629205)
-            let st2 = Station(name: "Station 2", type: "Driverless bus", lat: 46.541050, long: 6.658185)
-            let st3 = Station(name: "Station 3", type: "Driverless bus", lat: 46.541724, long: 6.618336)
-            let st4 = Station(name: "Station 4", type: "Driverless bus", lat: 46.522044, long: 6.565975)
-            let st5 = Station(name: "Station 5", type: "Driverless bus", lat: 46.511076, long: 6.659613)
+            let st1 = Station(name: "Station 1", type: "Driverless bus", latitude: 46.517202, longitude: 6.629205)
+            let st2 = Station(name: "Station 2", type: "Driverless bus", latitude: 46.541050, longitude: 6.658185)
+            let st3 = Station(name: "Station 3", type: "Driverless bus", latitude: 46.541724, longitude: 6.618336)
+            let st4 = Station(name: "Station 4", type: "Driverless bus", latitude: 46.522044, longitude: 6.565975)
+            let st5 = Station(name: "Station 5", type: "Driverless bus", latitude: 46.511076, longitude: 6.659613)
     
             self.stations = [st1, st2, st3, st4, st5]
             

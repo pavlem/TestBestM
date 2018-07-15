@@ -12,14 +12,25 @@ import MapKit
 
 class Station: NSObject {
     
-    let name: String
-    let type: String
+//    let id: Int
+//    let name: String
+//    let type: String
     let location: CLLocation
     
-    init(name: String, type: String, latitude: Double, longitude: Double) {
-        self.name = name
-        self.type = type
-        self.location = CLLocation(latitude: latitude, longitude: longitude)
+//    init(id: Int, name: String, type: String, latitude: Double, longitude: Double) {
+//        self.id = id
+//        self.name = name
+//        self.type = type
+//        self.location = CLLocation(latitude: latitude, longitude: longitude)
+//    }
+    
+    init(json: [String: Any]) {
+//        id = json["id"] as? Int ?? -1
+//        name = json["name"] as? String ?? ""
+//        type = json["type"] as? String ?? ""
+        let latitude = json["latitude"] as? Double ?? 0.0
+        let longitude = json["longitude"] as? Double ?? 0.0
+        location = CLLocation(latitude: latitude, longitude: longitude)
     }
 }
 
@@ -29,14 +40,14 @@ extension Station: MKAnnotation {
             return location.coordinate
         }
     }
-    var title: String? {
-        get {
-            return name
-        }
-    }
-    var subtitle: String? {
-        get {
-            return type
-        }
-    }
+//    var title: String? {
+//        get {
+//            return name
+//        }
+//    }
+//    var subtitle: String? {
+//        get {
+//            return type
+//        }
+//    }
 }

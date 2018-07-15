@@ -1,0 +1,24 @@
+﻿{
+  "stationData": [
+    {
+      "latitude": 46.517202,
+      "longitude": 6.629205
+    },
+    {
+      "latitude": 46.541050,
+      "longitude": 6.658185
+    },
+    {
+      "latitude": 46.541724,
+      "longitude": 6.618336
+    },
+    {
+      "latitude": 46.522044,
+      "longitude": 6.565975
+    },
+    {
+      "latitude": 46.511076,
+      "longitude": 6.659613
+    }
+  ]
+}

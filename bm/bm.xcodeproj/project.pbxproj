@@ -18,6 +18,7 @@
 		9EEC69C520FB559B00B09525 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEC69C420FB559B00B09525 /* Constants.swift */; };
 		9EEC69CB20FB588B00B09525 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEC69CA20FB588B00B09525 /* Station.swift */; };
 		9EEC69D420FB5FD100B09525 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EEC69D320FB5FD100B09525 /* MapKit.framework */; };
+		9EEC69DA20FB7A1700B09525 /* stationMOCList.json in Resources */ = {isa = PBXBuildFile; fileRef = 9EEC69D920FB7A1700B09525 /* stationMOCList.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		9EEC69C420FB559B00B09525 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9EEC69CA20FB588B00B09525 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		9EEC69D320FB5FD100B09525 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		9EEC69D920FB7A1700B09525 /* stationMOCList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stationMOCList.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 		9EEC69C720FB581F00B09525 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				9EEC69D920FB7A1700B09525 /* stationMOCList.json */,
 				9EEC699220FB440100B09525 /* AppDelegate.swift */,
 				9EEC699620FB440100B09525 /* Main.storyboard */,
 				9EEC699B20FB440300B09525 /* LaunchScreen.storyboard */,
@@ -282,6 +285,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EEC69DA20FB7A1700B09525 /* stationMOCList.json in Resources */,
 				9EEC699D20FB440300B09525 /* LaunchScreen.storyboard in Resources */,
 				9EEC699A20FB440300B09525 /* Assets.xcassets in Resources */,
 				9EEC699820FB440100B09525 /* Main.storyboard in Resources */,

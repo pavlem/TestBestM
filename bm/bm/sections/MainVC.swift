@@ -11,6 +11,9 @@ import UIKit
 class MainVC: UIViewController {
     
     // MARK: - Properties
+    // Vars
+    var stations = [Station]()
+    // Outlets
     @IBOutlet weak var getStationsBtn: UIButton!
     
     // MARK: - Lifecycle
@@ -37,6 +40,7 @@ class MainVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let mapVC = segue.destination as? MapVC {
             mapVC.set(navigationTitle: "Map List")
+            mapVC.set(stations: stations)
         }
     }
     
@@ -47,6 +51,15 @@ class MainVC: UIViewController {
         
         DispatchQueue.global(qos: .background).async {
             sleep(1)
+            
+            let st1 = Station(name: "Station 1", type: "Driverless bus", lat: 46.517202, long: 6.629205)
+            let st2 = Station(name: "Station 2", type: "Driverless bus", lat: 46.541050, long: 6.658185)
+            let st3 = Station(name: "Station 3", type: "Driverless bus", lat: 46.541724, long: 6.618336)
+            let st4 = Station(name: "Station 4", type: "Driverless bus", lat: 46.522044, long: 6.565975)
+            let st5 = Station(name: "Station 5", type: "Driverless bus", lat: 46.511076, long: 6.659613)
+    
+            self.stations = [st1, st2, st3, st4, st5]
+            
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 completion()

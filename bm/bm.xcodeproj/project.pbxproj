@@ -17,6 +17,7 @@
 		9EEC69C320FB533B00B09525 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEC69C220FB533B00B09525 /* MapVC.swift */; };
 		9EEC69C520FB559B00B09525 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEC69C420FB559B00B09525 /* Constants.swift */; };
 		9EEC69CB20FB588B00B09525 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEC69CA20FB588B00B09525 /* Station.swift */; };
+		9EEC69D420FB5FD100B09525 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EEC69D320FB5FD100B09525 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		9EEC69C220FB533B00B09525 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		9EEC69C420FB559B00B09525 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9EEC69CA20FB588B00B09525 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		9EEC69D320FB5FD100B09525 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EEC69D420FB5FD100B09525 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +90,7 @@
 				9EEC69A620FB440300B09525 /* bmTests */,
 				9EEC69B120FB440300B09525 /* bmUITests */,
 				9EEC699020FB440100B09525 /* Products */,
+				9EEC69D220FB5FD000B09525 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -164,6 +168,14 @@
 				9EEC69CA20FB588B00B09525 /* Station.swift */,
 			);
 			path = models;
+			sourceTree = "<group>";
+		};
+		9EEC69D220FB5FD000B09525 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9EEC69D320FB5FD100B09525 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

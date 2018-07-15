@@ -14,9 +14,17 @@ class MapVC: UIViewController {
     func set(navigationTitle: String) {
         navigationItem.title = navigationTitle
     }
+    
+    func set(stations: [Station]) {
+        self.stations = stations
+    }
 
+    // MARK: - Properties
+    private var stations: [Station]?
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(stations?.count ?? 0)
     }
 }

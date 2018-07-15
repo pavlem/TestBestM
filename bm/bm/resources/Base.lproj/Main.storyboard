@@ -50,13 +50,27 @@
                     <view key="view" contentMode="scaleToFill" id="duh-kc-KDq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="266-Y9-OV5">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="s5A-5T-QBx" firstAttribute="trailing" secondItem="266-Y9-OV5" secondAttribute="trailing" id="LqL-dL-71b"/>
+                            <constraint firstItem="s5A-5T-QBx" firstAttribute="bottom" secondItem="266-Y9-OV5" secondAttribute="bottom" id="QYL-AB-b5T"/>
+                            <constraint firstItem="266-Y9-OV5" firstAttribute="leading" secondItem="s5A-5T-QBx" secondAttribute="leading" id="eRN-rx-eLd"/>
+                            <constraint firstItem="266-Y9-OV5" firstAttribute="top" secondItem="s5A-5T-QBx" secondAttribute="top" id="fqE-Ol-ShQ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="s5A-5T-QBx"/>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="266-Y9-OV5" id="GgW-un-EGI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q3r-fR-563" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1983" y="14"/>
+            <point key="canvasLocation" x="1981.5999999999999" y="13.943028485757123"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fhX-70-Nyn">

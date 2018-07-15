@@ -107,7 +107,6 @@
 				9EEC69C920FB586900B09525 /* models */,
 				9EEC69C820FB586000B09525 /* libs */,
 				9EEC69C720FB581F00B09525 /* resources */,
-				9EEC69C420FB559B00B09525 /* Constants.swift */,
 				9EEC699E20FB440300B09525 /* Info.plist */,
 			);
 			path = bm;
@@ -154,6 +153,7 @@
 		9EEC69C820FB586000B09525 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				9EEC69C420FB559B00B09525 /* Constants.swift */,
 			);
 			path = libs;
 			sourceTree = "<group>";

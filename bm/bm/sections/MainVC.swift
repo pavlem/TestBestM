@@ -29,7 +29,7 @@ class MainVC: UIViewController {
         
         fetchStations { (stations) in
             let mapVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardID.mapVC) as! MapVC
-            mapVC.set(navigationTitle: "Map List PAJA")
+            mapVC.set(navigationTitle: "Map List")
             mapVC.set(stations: stations)
             self.show(mapVC, sender: nil)
         }
@@ -52,8 +52,8 @@ class MainVC: UIViewController {
         
         DispatchQueue.global(qos: .background).async {
             
-            sleep(1)
-            var stationsLocal = [Station]()            
+//            sleep(1)
+            var stationsLocal = [Station]()
             if let path = Bundle.main.path(forResource: "stationMOCList", ofType: "json") {
                 do {
                     let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)

@@ -124,13 +124,6 @@ extension MapVC: MKMapViewDelegate {
         return annotationView
     }
     
-    func loadJsonFrom(fileNamed fileName: String) -> NSDictionary {
-        let filePath = Bundle.main.path(forResource: fileName, ofType: "json")
-        let jsonData = try! Data(contentsOf: URL(fileURLWithPath: filePath!))
-        let jsonResult: NSDictionary = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as! NSDictionary
-        return jsonResult
-    }
-    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         createBtn.isEnabled = true
         
@@ -139,12 +132,27 @@ extension MapVC: MKMapViewDelegate {
             mTintView.markerTintColor = .red
         }
         
+        print("=========Selected OBJECT===========")
+        if let selectedStation = view.annotation as? Station {
+            print("id: \(selectedStation.id)")
+            print("title: \(selectedStation.title ?? "")")
+        }
+        print("=========Selected OBJECT===========")
+        
         if let selectedIndex = getSelectedIndex(forMarkerAnnotationView: view as! MKMarkerAnnotationView) {
-            print("selected station...\(selectedIndex)")
-            let randInt = getRandomInteger(maximum: 5, notAllowedInt: selectedIndex)
-            print("random station...\(randInt)")
+            print("selected station index...\(selectedIndex)")
+            let randIndex = getRandomInteger(maximum: stations.count, notAllowedInt: selectedIndex)
+            print("random station index...\(randIndex)")
             let visibleStations = mapView.visibleAnnotations()
-            print(visibleStations[selectedIndex].title! ?? "none")
+            let randomAnnotation = visibleStations[randIndex]
+            print("randomAnnotation title...\(randomAnnotation.title! ?? "")")
+            
+            print("=========Random OBJECT===========")
+            let randomStationView = visibleStations[randIndex]
+            if let randomStation = randomStationView as? Station {
+                print("rand station obj: \(randomStation.title ?? "")")
+            }
+            print("=========Random OBJECT===========")
         }
     }
 

@@ -12,6 +12,8 @@ extension UIStoryboard {
     static var mainSB: UIStoryboard { return UIStoryboard(name: "Main", bundle: Bundle.main) }
     static var mainVC: UIViewController { return UIStoryboard.mainSB.instantiateViewController(withIdentifier:
         "MainVC_ID")}
+    static var mapVC: UIViewController { return UIStoryboard.mainSB.instantiateViewController(withIdentifier:
+        "MapVC_ID")}
 }
 
 

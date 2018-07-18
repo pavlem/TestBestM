@@ -12,13 +12,13 @@ import MapKit
 
 class Station: NSObject {
     
-    let id: Int
+    let id: String
     let name: String
     let type: String
     let location: CLLocation
     
     init(json: [String: Any]) {
-        id = json["id"] as? Int ?? -1
+        id = json["stationId"] as? String ?? "-1"
         name = json["name"] as? String ?? ""
         type = json["type"] as? String ?? ""
         let latitude = json["latitude"] as? Double ?? 0.0

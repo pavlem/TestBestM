@@ -21,6 +21,14 @@ class MainVC: UIViewController {
         super.viewWillAppear(animated)
         
         self.getStationsBtn.isEnabled = true
+        
+        // TODO: Remove later
+//        fetchStations { (stations) in
+//            let mapVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardID.mapVC) as! MapVC
+//            mapVC.set(navigationTitle: "Map List")
+//            mapVC.set(stations: stations)
+//            self.show(mapVC, sender: nil)
+//        }
     }
     
     // MARK: - Actions
@@ -46,13 +54,12 @@ class MainVC: UIViewController {
         return stations
     }
     
-    
     private func fetchStations(completion: @escaping ([Station]) -> Void) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         DispatchQueue.global(qos: .background).async {
             
-//            sleep(1)
+            //            sleep(1) // TODO: Unccoment on end. 
             var stationsLocal = [Station]()
             if let path = Bundle.main.path(forResource: "stationMOCList", ofType: "json") {
                 do {

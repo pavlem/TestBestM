@@ -10,6 +10,9 @@ import UIKit
 import CoreLocation
 import MapKit
 
+
+class Vehicle: Station {}
+
 class Station: NSObject {
     
     let id: String
@@ -24,6 +27,13 @@ class Station: NSObject {
         let latitude = json["latitude"] as? Double ?? 0.0
         let longitude = json["longitude"] as? Double ?? 0.0
         location = CLLocation(latitude: latitude, longitude: longitude)
+    }
+    
+    init(id: String, name: String, type: String, latitude: Double, longitude: Double) {
+        self.id = id
+        self.name = name
+        self.type = type
+        self.location = CLLocation(latitude: latitude, longitude: longitude)
     }
 }
 
@@ -40,6 +50,21 @@ extension Station {
             annotationView?.glyphText = glyphText
         }
         annotationView?.markerTintColor = UIColor.nonSelectedStation
+        return annotationView
+    }
+    
+    static func getBUSMarkerAnnotation(mapView: MKMapView, andAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let identationViewIdent = "busID"
+        let glyphText = "BUS"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identationViewIdent) as? MKMarkerAnnotationView
+        if annotationView == nil {
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identationViewIdent)
+            annotationView?.glyphText = glyphText
+        } else {
+            annotationView?.annotation = annotation
+            annotationView?.glyphText = glyphText
+        }
+        annotationView?.markerTintColor = UIColor.orange
         return annotationView
     }
 }

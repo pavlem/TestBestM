@@ -10,13 +10,13 @@ import Foundation
 import MapKit
 
 func logSelectedAnnotation(mapView: MKMapView, view: MKAnnotationView, stations: [Station]) {
-    print("=========Selected OBJECT===========")
-    if let selectedStation = view.annotation as? Station {
-        print("id: \(selectedStation.id)")
-        print("title: \(selectedStation.title ?? "")")
-    }
-    print("=========Selected OBJECT===========")
-    
+//    print("=========Selected OBJECT===========")
+//    if let selectedStation = view.annotation as? Station {
+//        print("id: \(selectedStation.id)")
+//        print("title: \(selectedStation.title ?? "")")
+//    }
+//    print("=========Selected OBJECT===========")
+
     if let selectedIndex = getSelectedIndex(forMarkerAnnotationView: view as! MKMarkerAnnotationView, mapView: mapView) {
         print("================")
         print("selected station index...\(selectedIndex)")
@@ -25,7 +25,6 @@ func logSelectedAnnotation(mapView: MKMapView, view: MKAnnotationView, stations:
         let visibleStations = mapView.visibleAnnotations()
         let randomAnnotation = visibleStations[randIndex]
         print("randomAnnotation title...\(randomAnnotation.title! ?? "")")
-        
         print("=========Random OBJECT===========")
         let randomStationView = visibleStations[randIndex]
         if let randomStation = randomStationView as? Station {
@@ -35,6 +34,7 @@ func logSelectedAnnotation(mapView: MKMapView, view: MKAnnotationView, stations:
         print("=========Random OBJECT===========")
     }
 }
+
 
 // Utility
 func getRandomInteger(maximum: Int, notAllowedInt: Int) -> Int { //TODO: Unit Test

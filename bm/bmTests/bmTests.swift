@@ -21,16 +21,11 @@ class bmTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    // MARK: - Utility
+    func testExtractArrayElements() {
+        XCTAssert([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].extractArrayElements(withStep: 1).count == 10, "🍊🍊, extractArrayElements not ok")
+        XCTAssert([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].extractArrayElements(withStep: 5).count == 2, "🍊🍊, extractArrayElements not ok")
+        XCTAssert([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].extractArrayElements(withStep: 5).count == 4, "🍊🍊, extractArrayElements not ok")
+        XCTAssert(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].extractArrayElements(withStep: 15).count == 2, "🍊🍊, extractArrayElements not ok")
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }

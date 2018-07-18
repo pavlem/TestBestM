@@ -140,11 +140,13 @@ extension MapVC: MKMapViewDelegate {
         }
         
         if let selectedIndex = getSelectedIndex(forMarkerAnnotationView: view as! MKMarkerAnnotationView) {
+            print("================")
             print("selected station...\(selectedIndex)")
             let randInt = getRandomInteger(maximum: 5, notAllowedInt: selectedIndex)
             print("random station...\(randInt)")
             let visibleStations = mapView.visibleAnnotations()
-            print(visibleStations[selectedIndex].title! ?? "none")
+            print("title: \(visibleStations[selectedIndex].title! ?? "none")")
+            print("================")
         }
     }
 

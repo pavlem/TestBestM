@@ -60,7 +60,7 @@ func getSelectedIndex(forMarkerAnnotationView annotationView: MKMarkerAnnotation
     return nil
 }
 
-func isMaxVehicleNumberReached(currentNumberOfVehicles: Int, maxAllowed: Int) -> Bool {
+func isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: Int, maxAllowed: Int) -> Bool {
     guard currentNumberOfVehicles < maxAllowed else {
         return false
     }

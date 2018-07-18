@@ -31,6 +31,9 @@ class MapVC: UIViewController {
     private var createBtn: UIBarButtonItem {
         return navigationItem.rightBarButtonItem!
     }
+    private var isCreationOfAnotherVehicleOK: Bool {
+        return isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: activeVehicles, maxAllowed: maxVehiclesAllowed)
+    }
     // Constants
     private let maxVehiclesAllowed = 10
     
@@ -59,7 +62,7 @@ class MapVC: UIViewController {
         createRoute { (isRouteCreated) in
             guard isRouteCreated else { return }
             
-            // TODO: Increment
+            // TODO: Increment active vehicles
             activeVehicles += 1
             print(activeVehicles)
             
@@ -69,7 +72,7 @@ class MapVC: UIViewController {
     }
     
     func createRoute(completion: (Bool) -> ()) {
-        guard isMaxVehicleNumberReached(currentNumberOfVehicles: activeVehicles, maxAllowed: maxVehiclesAllowed) else {
+        guard isCreationOfAnotherVehicleOK else {
             print("Max number reached.....")
             completion(false)
             return

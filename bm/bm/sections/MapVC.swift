@@ -31,13 +31,15 @@ class MapVC: UIViewController {
     private var createBtn: UIBarButtonItem {
         return navigationItem.rightBarButtonItem!
     }
+    // Constants
+    private let maxVehiclesAllowed = 10
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setNavBar()
-        set(mapView: self.mapView)
+        set(mapView: self.mapView, referenceStation: stations.first!)
     }
     
     // MARK: - Helper
@@ -54,51 +56,40 @@ class MapVC: UIViewController {
     
     // MARK: - Actions
     @objc func createAction(sender: UIBarButtonItem) {
-//        guard activeVehicles <= 10 else {
-//            print("Max number reached.....")
-//            return
-//        }
-//
-//        if activeVehicles < 10 {
-//            activeVehicles += 1
-//            print("Create.....\(activeVehicles)")
-//        }
+        createRoute { (isRouteCreated) in
+            guard isRouteCreated else { return }
+            
+            // TODO: Increment
+            activeVehicles += 1
+            print(activeVehicles)
+            
+            // TODO: start travel
+            // .....
+        }
+    }
+    
+    func createRoute(completion: (Bool) -> ()) {
+        guard isMaxVehicleNumberReached(currentNumberOfVehicles: activeVehicles, maxAllowed: maxVehiclesAllowed) else {
+            print("Max number reached.....")
+            completion(false)
+            return
+        }
+        
+        // TODO: create route
+        // ........ polyline
+        completion(true)
     }
     
     // MARK: - Helper
-    private func set(mapView: MKMapView) {
+    private func set(mapView: MKMapView, referenceStation: Station) {
         mapView.delegate = self
         mapView.addAnnotations(stations)
         mapView.isRotateEnabled = false
         mapView.mapType = .standard
         
         let regionRadius: CLLocationDistance = 12000
-        let hq = stations.first
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(hq!.coordinate, regionRadius, regionRadius)
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(referenceStation.coordinate, regionRadius, regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
-    }
-    
-    func getSelectedIndex(forMarkerAnnotationView annotationView: MKMarkerAnnotationView) -> Int? { //TODO: Unit Test
-        let visible = mapView.visibleAnnotations()
-        for (ind, v) in visible.enumerated() {
-            let viewSelected = mapView.view(for: v) as! MKMarkerAnnotationView
-            if annotationView == viewSelected {
-                return ind
-            }
-        }
-        return nil
-    }
-    
-    func getRandomInteger(maximum: Int, notAllowedInt: Int) -> Int { //TODO: Unit Test
-        let randomInt = random(maximum)
-        guard randomInt != notAllowedInt else {
-            return getRandomInteger(maximum: maximum, notAllowedInt: notAllowedInt)
-        }
-        return randomInt
-    }
-    
-    func random(_ n: Int) -> Int {
-        return Int(arc4random_uniform(UInt32(n)))
     }
 }
 
@@ -109,19 +100,7 @@ extension MapVC: MKMapViewDelegate {
             return nil
         }
         
-        let identationViewIdent = "stationID"
-        let glyphText = "B.M."
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identationViewIdent) as? MKMarkerAnnotationView
-        if annotationView == nil {
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identationViewIdent)
-            annotationView?.glyphText = glyphText
-        } else {
-            annotationView?.annotation = annotation
-            annotationView?.glyphText = glyphText
-        }
-        annotationView?.markerTintColor = .green
-        
-        return annotationView
+        return Station.getStationMarkerAnnotation(mapView: mapView, andAnnotation: annotation)
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
@@ -129,39 +108,16 @@ extension MapVC: MKMapViewDelegate {
         
         if view is MKMarkerAnnotationView {
             let mTintView = view as! MKMarkerAnnotationView
-            mTintView.markerTintColor = .red
+            mTintView.markerTintColor = UIColor.selectedStation
         }
         
-        print("=========Selected OBJECT===========")
-        if let selectedStation = view.annotation as? Station {
-            print("id: \(selectedStation.id)")
-            print("title: \(selectedStation.title ?? "")")
-        }
-        print("=========Selected OBJECT===========")
-        
-        if let selectedIndex = getSelectedIndex(forMarkerAnnotationView: view as! MKMarkerAnnotationView) {
-            print("================")
-            print("selected station index...\(selectedIndex)")
-            let randIndex = getRandomInteger(maximum: stations.count, notAllowedInt: selectedIndex)
-            print("random station index...\(randIndex)")
-            let visibleStations = mapView.visibleAnnotations()
-            let randomAnnotation = visibleStations[randIndex]
-            print("randomAnnotation title...\(randomAnnotation.title! ?? "")")
-            
-            print("=========Random OBJECT===========")
-            let randomStationView = visibleStations[randIndex]
-            if let randomStation = randomStationView as? Station {
-                print("rand station obj title: \(randomStation.title ?? "")")
-                print("rand station obj id: \(randomStation.id)")
-            }
-            print("=========Random OBJECT===========")
-        }
+        logSelectedAnnotation(mapView: self.mapView, view: view, stations: self.stations)
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         if view is MKMarkerAnnotationView {
             let mTintView = view as! MKMarkerAnnotationView
-            mTintView.markerTintColor = .green
+            mTintView.markerTintColor = UIColor.nonSelectedStation
         }
         
         createBtn.isEnabled = false

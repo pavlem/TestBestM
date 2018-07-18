@@ -15,4 +15,12 @@ extension UIColor {
         let randomBlue = CGFloat(drand48())
         return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
     }
+    
+    static var selectedStation: UIColor {
+        return .red
+    }
+    
+    static var nonSelectedStation: UIColor {
+        return .green
+    }
 }

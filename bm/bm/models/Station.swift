@@ -27,6 +27,23 @@ class Station: NSObject {
     }
 }
 
+extension Station {
+    static func getStationMarkerAnnotation(mapView: MKMapView, andAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let identationViewIdent = "stationID"
+        let glyphText = "B.M."
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identationViewIdent) as? MKMarkerAnnotationView
+        if annotationView == nil {
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identationViewIdent)
+            annotationView?.glyphText = glyphText
+        } else {
+            annotationView?.annotation = annotation
+            annotationView?.glyphText = glyphText
+        }
+        annotationView?.markerTintColor = UIColor.nonSelectedStation
+        return annotationView
+    }
+}
+
 extension Station: MKAnnotation {
     var coordinate: CLLocationCoordinate2D {
         get {

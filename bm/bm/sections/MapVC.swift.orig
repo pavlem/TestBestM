@@ -140,7 +140,7 @@ extension MapVC: MKMapViewDelegate {
         print("=========Selected OBJECT===========")
         
         if let selectedIndex = getSelectedIndex(forMarkerAnnotationView: view as! MKMarkerAnnotationView) {
-            print("================")
+<<<<<<< HEAD
             print("selected station index...\(selectedIndex)")
             let randIndex = getRandomInteger(maximum: stations.count, notAllowedInt: selectedIndex)
             print("random station index...\(randIndex)")
@@ -151,10 +151,18 @@ extension MapVC: MKMapViewDelegate {
             print("=========Random OBJECT===========")
             let randomStationView = visibleStations[randIndex]
             if let randomStation = randomStationView as? Station {
-                print("rand station obj title: \(randomStation.title ?? "")")
-                print("rand station obj id: \(randomStation.id)")
+                print("rand station obj: \(randomStation.title ?? "")")
             }
             print("=========Random OBJECT===========")
+=======
+            print("================")
+            print("selected station...\(selectedIndex)")
+            let randInt = getRandomInteger(maximum: 5, notAllowedInt: selectedIndex)
+            print("random station...\(randInt)")
+            let visibleStations = mapView.visibleAnnotations()
+            print("title: \(visibleStations[selectedIndex].title! ?? "none")")
+            print("================")
+>>>>>>> 008e19a90d352e29fe44c92356e3e5ab80f022b9
         }
     }
 

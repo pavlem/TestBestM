@@ -144,13 +144,15 @@ class MapVC: UIViewController {
         self.randomStation = getRandomStationExcludingSelected(forMapView: mapView, view:  mapView.view(for: mapView.selectedAnnotations.first!)!)
         let sourceLocation = CLLocation(latitude: selectedStation!.coordinate.latitude, longitude: selectedStation!.coordinate.longitude)
         let destinationLocation = CLLocation(latitude: randomStation!.coordinate.latitude, longitude: randomStation!.coordinate.longitude)
-        let coordinateRoute = setRouteFor(mapView: self.mapView, locationManager: self.locationManager, sourceLocation: sourceLocation, andDestination: destinationLocation)
-        print(coordinateRoute?.coordinates.count ?? 0)
+        
+        getRouteAndCoordinatesFor(sourceLocation: sourceLocation, destinationLocation: destinationLocation, locationManager: self.locationManager) { (route, coordinates) in
+            self.mapView.add(route.polyline)
+            print(coordinates.count)
+        }
         completion(true)
     }
     
-    // MARK: - Helper
-    private func setRouteFor(mapView: MKMapView, locationManager: CLLocationManager, sourceLocation: CLLocation, andDestination destinationLocation: CLLocation) -> (route: MKRoute, coordinates: [CLLocationCoordinate2D])? {
+    func getRouteAndCoordinatesFor(sourceLocation: CLLocation, destinationLocation: CLLocation, locationManager: CLLocationManager, success: @escaping (MKRoute, [CLLocationCoordinate2D]) -> Void) {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         
@@ -166,27 +168,17 @@ class MapVC: UIViewController {
         let region = MKCoordinateRegionMakeWithDistance(sourceLocation.coordinate, 15000, 15000)
         mapView.setRegion(region, animated: true)
         mapView.delegate = self
-        
         let directions = MKDirections(request: request)
-        
-        var routeLo: MKRoute?
-        var coordinatesLo: [CLLocationCoordinate2D]?
         
         directions.calculate { (response, error) in
             if error == nil {
                 for route in (response?.routes)! {
                     print(route.distance)
                     print("coord.......")
-                    print(route.polyline.coordinates.count)
-                    mapView.add(route.polyline)
-                    
-                    routeLo = route
-                    coordinatesLo = route.polyline.coordinates
+                    success(route, route.polyline.coordinates)
                 }
             }
         }
-        
-        return (route: routeLo, coordinates: coordinatesLo) as? (route: MKRoute, coordinates: [CLLocationCoordinate2D])
     }
     
     private func set(mapView: MKMapView, referenceStation: Station) {

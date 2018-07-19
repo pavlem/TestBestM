@@ -15,12 +15,14 @@ class Vehicle: NSObject {
     let name: String
     let image: UIImage
     let location: CLLocation
+    var route: [CLLocationCoordinate2D]
     
-    init(id: String, name: String, image: UIImage, latitude: Double, longitude: Double) {
+    init(id: String, name: String, image: UIImage, latitude: Double, longitude: Double, route: [CLLocationCoordinate2D]) {
         self.id = id
         self.name = name
         self.image = image
         self.location = CLLocation(latitude: latitude, longitude: longitude)
+        self.route = route
     }
 }
 

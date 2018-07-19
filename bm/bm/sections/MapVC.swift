@@ -24,6 +24,15 @@ class MapVC: UIViewController {
     // Outlets
     @IBOutlet weak var mapView: MKMapView!
     // Vars
+    var vehicles = [Vehicle]() {
+        didSet {
+            print(vehicles.count)
+            if vehicles.count == 0 {
+                print("gotovo.....")
+            }
+        }
+    }
+    
     var tappedLocation: MKAnnotation? // TODO: remove
     private var stations: [Station] = []
     private var navigationTitle: String?
@@ -62,7 +71,7 @@ class MapVC: UIViewController {
         
         setNavBar()
         set(mapView: self.mapView, referenceStation: stations.first!)
-//        setInformationFeedbackRefreshTimers()
+        setInformationFeedbackRefreshTimers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -79,7 +88,7 @@ class MapVC: UIViewController {
     
     private func setInformationFeedbackRefreshTimers() {
         vehicleRefreshTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshVehiclInfo), userInfo: nil, repeats: true)
-        statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
+//        statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
     }
     
     private func setNavBar() {
@@ -96,6 +105,20 @@ class MapVC: UIViewController {
     // MARK: - Actions
     @objc func refreshVehiclInfo(sender: Timer) {
         print("refreshVehiclInfo")
+        print("vehicles.count: \(vehicles.count)")
+        for v in vehicles {
+            print("v.name: \(v.name)")
+            print("v.route.count: \(v.route.count)")
+
+            if v.route.count == 0 {
+                print("gotovo")
+                if let index = vehicles.index(of: v) {
+                    vehicles.remove(at: index)
+                }
+            } else {
+                v.route.remove(at: 0)
+            }
+        }
     }
     
     @objc func refreshStatsInfo(sender: Timer) {
@@ -146,8 +169,14 @@ class MapVC: UIViewController {
         let destinationLocation = CLLocation(latitude: randomStation!.coordinate.latitude, longitude: randomStation!.coordinate.longitude)
         
         getRouteAndCoordinatesFor(sourceLocation: sourceLocation, destinationLocation: destinationLocation, locationManager: self.locationManager) { (route, coordinates) in
-            self.mapView.add(route.polyline)
+//            self.mapView.add(route.polyline)
+            let shortCoordinates = coordinates.extractArrayElements(withStep: coordinates.count / 20)
+            print(shortCoordinates.count)
             print(coordinates.count)
+            print("============")
+            
+            let vh = Vehicle(id: "1111", name: "bus", image: UIImage(named: "busPin")!, latitude: sourceLocation.coordinate.latitude, longitude: sourceLocation.coordinate.longitude, route: shortCoordinates  as! [CLLocationCoordinate2D])
+            self.vehicles.append(vh)
         }
         completion(true)
     }

@@ -28,14 +28,16 @@ class MapVC: UIViewController {
     private var stations: [Station] = []
     private var navigationTitle: String?
     private var activeVehicles = 0
-    var selectedStation: Station? {
+    private var vehicleRefreshTimer: Timer?
+    private var statisticsRefreshTimer: Timer?
+    private var selectedStation: Station? {
         didSet {
             print("=========selectedStation OBJECT===========")
             print("id: \(self.selectedStation!.id)")
             print("title: \(self.selectedStation!.title ?? "")")
         }
     }
-    var randomStation: Station? {
+    private var randomStation: Station? {
         didSet {
             print("=========randomStation OBJECT===========")
             print("id: \(self.randomStation!.id)")
@@ -60,9 +62,26 @@ class MapVC: UIViewController {
         
         setNavBar()
         set(mapView: self.mapView, referenceStation: stations.first!)
+        setRefreshTimers()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        invalidateTimers()
     }
     
     // MARK: - Helper
+    private func invalidateTimers() {
+        vehicleRefreshTimer?.invalidate()
+        statisticsRefreshTimer?.invalidate()
+    }
+    
+    private func setRefreshTimers() {
+        vehicleRefreshTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshVehiclInfo), userInfo: nil, repeats: true)
+        statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
+    }
+    
     private func setNavBar() {
         navigationItem.title = navigationTitle
         setNabBarBtn()
@@ -75,6 +94,14 @@ class MapVC: UIViewController {
     }
     
     // MARK: - Actions
+    @objc func refreshVehiclInfo(sender: Timer) {
+        print("refreshVehiclInfo")
+    }
+    
+    @objc func refreshStatsInfo(sender: Timer) {
+        print("refreshStatsInfo")
+    }
+    
     @IBAction func mapTapped(_ sender: UITapGestureRecognizer) {
         let locationPoint = sender.location(in: mapView)
         let pickedCoordinate = mapView.convert(locationPoint, toCoordinateFrom: mapView)
@@ -101,6 +128,7 @@ class MapVC: UIViewController {
         }
     }
 
+    // Helper Temp
     func createRoute(completion: (Bool) -> ()) {
         // Check if ok
         guard isCreationOfAnotherVehicleOK else {
@@ -113,13 +141,15 @@ class MapVC: UIViewController {
         let sourceLocation = CLLocation(latitude: selectedStation!.coordinate.latitude, longitude: selectedStation!.coordinate.longitude)
         let destinationLocation = CLLocation(latitude: randomStation!.coordinate.latitude, longitude: randomStation!.coordinate.longitude)
         
-        setRouteFor(mapView: self.mapView, locationManager: self.locationManager, sourceLocation: sourceLocation, andDestination: destinationLocation)
+        let paja = setRouteFor(mapView: self.mapView, locationManager: self.locationManager, sourceLocation: sourceLocation, andDestination: destinationLocation)
+        
+        print(paja?.coordinates.count)
         
         completion(true)
     }
     
     // MARK: - Helper
-    private func setRouteFor(mapView: MKMapView, locationManager: CLLocationManager, sourceLocation: CLLocation, andDestination destinationLocation: CLLocation) {
+    private func setRouteFor(mapView: MKMapView, locationManager: CLLocationManager, sourceLocation: CLLocation, andDestination destinationLocation: CLLocation) -> (route: MKRoute, coordinates: [CLLocationCoordinate2D])? {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         
@@ -137,16 +167,25 @@ class MapVC: UIViewController {
         mapView.delegate = self
         
         let directions = MKDirections(request: request)
+        
+        var routeLo: MKRoute?
+        var coordinatesLo: [CLLocationCoordinate2D]?
+        
         directions.calculate { (response, error) in
             if error == nil {
                 for route in (response?.routes)! {
                     print(route.distance)
                     print("coord.......")
                     print(route.polyline.coordinates.count)
-                    mapView.add(route.polyline)
+//                    mapView.add(route.polyline)
+                    
+                    routeLo = route
+                    coordinatesLo = route.polyline.coordinates
                 }
             }
         }
+        
+        return (route: routeLo, coordinates: coordinatesLo) as? (route: MKRoute, coordinates: [CLLocationCoordinate2D])
     }
     
     private func set(mapView: MKMapView, referenceStation: Station) {

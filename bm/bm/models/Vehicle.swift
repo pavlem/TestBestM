@@ -14,13 +14,17 @@ class Vehicle: NSObject {
     let id: String
     let name: String
     let image: UIImage
-    let location: CLLocation
+    var location: CLLocation
+    let polyline: MKPolyline
+    var route: [CLLocationCoordinate2D]
     
-    init(id: String, name: String, image: UIImage, latitude: Double, longitude: Double) {
+    init(id: String, name: String, image: UIImage, latitude: Double, longitude: Double, route: [CLLocationCoordinate2D], polyline: MKPolyline) {
         self.id = id
         self.name = name
         self.image = image
         self.location = CLLocation(latitude: latitude, longitude: longitude)
+        self.route = route
+        self.polyline = polyline
     }
 }
 
@@ -46,7 +50,6 @@ extension Vehicle {
             if let vehicle = annotation as? Vehicle {
                 annotationView?.image = vehicle.image
             }
-            
         } else {
             if let vehicle = annotation as? Vehicle {
                 annotationView?.image = vehicle.image

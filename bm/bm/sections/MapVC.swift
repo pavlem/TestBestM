@@ -24,10 +24,22 @@ class MapVC: UIViewController {
     // Outlets
     @IBOutlet weak var mapView: MKMapView!
     // Vars
+    var vehicles = [Vehicle]() {
+        didSet {
+            print(vehicles.count)
+            if vehicles.count == 0 {
+                print("gotovo.....")
+            }
+        }
+    }
+    
     var tappedLocation: MKAnnotation? // TODO: remove
+    
     private var stations: [Station] = []
     private var navigationTitle: String?
-    private var activeVehicles = 0
+    private var activeVehicles: Int {
+        return vehicles.count
+    }
     private var vehicleRefreshTimer: Timer?
     private var statisticsRefreshTimer: Timer?
     private var selectedStation: Station? {
@@ -62,7 +74,7 @@ class MapVC: UIViewController {
         
         setNavBar()
         set(mapView: self.mapView, referenceStation: stations.first!)
-//        setInformationFeedbackRefreshTimers()
+        setInformationFeedbackRefreshTimers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -79,7 +91,7 @@ class MapVC: UIViewController {
     
     private func setInformationFeedbackRefreshTimers() {
         vehicleRefreshTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshVehiclInfo), userInfo: nil, repeats: true)
-        statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
+//        statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
     }
     
     private func setNavBar() {
@@ -95,7 +107,31 @@ class MapVC: UIViewController {
     
     // MARK: - Actions
     @objc func refreshVehiclInfo(sender: Timer) {
-        print("refreshVehiclInfo")
+        for v in vehicles {
+            print("\(v.name) - remaining stations \(v.route.count)")
+            print("========")
+            
+            if v.route.count == 0 {
+                print("gotovo")
+                if let index = vehicles.index(of: v) {
+                    vehicles.remove(at: index)
+                    mapView.remove(v.polyline)
+                    mapView.removeAnnotation(v)
+
+                }
+            } else {
+                
+
+                mapView.removeAnnotation(v)
+                v.route.remove(at: 0)
+                if let currentLocation2D = v.route.first {
+                    let currentLocation = CLLocation(latitude: currentLocation2D.latitude, longitude: currentLocation2D.longitude)
+                    v.location = currentLocation
+                }
+                mapView.addAnnotation(v)
+                
+            }
+        }
     }
     
     @objc func refreshStatsInfo(sender: Timer) {
@@ -122,11 +158,6 @@ class MapVC: UIViewController {
     @objc func createAction(sender: UIBarButtonItem) {
         createRoute { (isRouteCreated) in
             guard isRouteCreated else { return }
-
-            // TODO: Increment active vehicles
-            activeVehicles += 1
-            print(activeVehicles)
-
             // TODO: start travel
             // .....
         }
@@ -147,10 +178,17 @@ class MapVC: UIViewController {
         
         getRouteAndCoordinatesFor(sourceLocation: sourceLocation, destinationLocation: destinationLocation, locationManager: self.locationManager) { (route, coordinates) in
             self.mapView.add(route.polyline)
+            let shortCoordinates = coordinates.extractArrayElements(withStep: coordinates.count / 20)
+            print(shortCoordinates.count)
             print(coordinates.count)
+            print("============")
+            
+            let vh = Vehicle(id: "00  \(self.vehicles.count + 1)", name: "Bus No: \(self.vehicles.count + 1)", image: UIImage(named: "busPin")!, latitude: sourceLocation.coordinate.latitude, longitude: sourceLocation.coordinate.longitude, route: shortCoordinates  as! [CLLocationCoordinate2D], polyline: route.polyline)
+            self.vehicles.append(vh)
         }
         completion(true)
     }
+    
     
     func getRouteAndCoordinatesFor(sourceLocation: CLLocation, destinationLocation: CLLocation, locationManager: CLLocationManager, success: @escaping (MKRoute, [CLLocationCoordinate2D]) -> Void) {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest

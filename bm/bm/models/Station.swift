@@ -10,11 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-
-class Vehicle: Station {}
-
 class Station: NSObject {
-    
     let id: String
     let name: String
     let type: String
@@ -50,21 +46,6 @@ extension Station {
             annotationView?.glyphText = glyphText
         }
         annotationView?.markerTintColor = UIColor.nonSelectedStation
-        return annotationView
-    }
-    
-    static func getBUSMarkerAnnotation(mapView: MKMapView, andAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        let identationViewIdent = "busID"
-        let glyphText = "BUS"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identationViewIdent) as? MKMarkerAnnotationView
-        if annotationView == nil {
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identationViewIdent)
-            annotationView?.glyphText = glyphText
-        } else {
-            annotationView?.annotation = annotation
-            annotationView?.glyphText = glyphText
-        }
-        annotationView?.markerTintColor = UIColor.orange
         return annotationView
     }
 }

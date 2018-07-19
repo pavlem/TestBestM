@@ -52,9 +52,10 @@ func random(_ n: Int) -> Int {
 func getSelectedIndex(forMarkerAnnotationView annotationView: MKMarkerAnnotationView, mapView: MKMapView) -> Int? { //TODO: Unit Test
     let visible = mapView.visibleAnnotations()
     for (ind, v) in visible.enumerated() {
-        let viewSelected = mapView.view(for: v) as! MKMarkerAnnotationView
-        if annotationView == viewSelected {
-            return ind
+        if let viewSelected = mapView.view(for: v) as? MKMarkerAnnotationView {
+            if annotationView == viewSelected {
+                return ind
+            }
         }
     }
     return nil

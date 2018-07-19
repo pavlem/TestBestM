@@ -40,8 +40,8 @@ class MapVC: UIViewController {
     private var randomStation: Station? {
         didSet {
             print("=========randomStation OBJECT===========")
-            print("id: \(self.randomStation!.id)")
-            print("title: \(self.randomStation!.title ?? "")")
+            print("id: \(String(describing: self.randomStation?.id))")
+            print("title: \(self.randomStation?.title ?? "")")
         }
     }
     
@@ -62,7 +62,7 @@ class MapVC: UIViewController {
         
         setNavBar()
         set(mapView: self.mapView, referenceStation: stations.first!)
-        setRefreshTimers()
+//        setInformationFeedbackRefreshTimers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -77,7 +77,7 @@ class MapVC: UIViewController {
         statisticsRefreshTimer?.invalidate()
     }
     
-    private func setRefreshTimers() {
+    private func setInformationFeedbackRefreshTimers() {
         vehicleRefreshTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshVehiclInfo), userInfo: nil, repeats: true)
         statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
     }
@@ -103,26 +103,30 @@ class MapVC: UIViewController {
     }
     
     @IBAction func mapTapped(_ sender: UITapGestureRecognizer) {
-        let locationPoint = sender.location(in: mapView)
-        let pickedCoordinate = mapView.convert(locationPoint, toCoordinateFrom: mapView)
-        let vehicle = Vehicle(id: "123", name: "busplus", type: "bus", latitude: pickedCoordinate.latitude, longitude: pickedCoordinate.longitude)
-        
-        if self.tappedLocation != nil {
-            mapView.removeAnnotation(self.tappedLocation!)
-        }
-
-        self.tappedLocation = vehicle
-        mapView.addAnnotation(vehicle)
+//        let locationPoint = sender.location(in: mapView)
+//        let pickedCoordinate = mapView.convert(locationPoint, toCoordinateFrom: mapView)
+//
+//        let img = UIImage(named: "busPin")
+//        let vehicle = Vehicle(id: "xxxxx", name: "bus", image: UIImage(named: "busPin")!, latitude: pickedCoordinate.latitude, longitude: pickedCoordinate.longitude)
+//
+////        let vehicle = Vehicle(id: "123", name: "busplus", type: "bus", latitude: pickedCoordinate.latitude, longitude: pickedCoordinate.longitude)
+//
+//        if self.tappedLocation != nil {
+//            mapView.removeAnnotation(self.tappedLocation!)
+//        }
+//
+//        self.tappedLocation = vehicle
+//        mapView.addAnnotation(vehicle)
     }
     
     @objc func createAction(sender: UIBarButtonItem) {
         createRoute { (isRouteCreated) in
             guard isRouteCreated else { return }
-            
+
             // TODO: Increment active vehicles
             activeVehicles += 1
             print(activeVehicles)
-            
+
             // TODO: start travel
             // .....
         }
@@ -140,11 +144,8 @@ class MapVC: UIViewController {
         self.randomStation = getRandomStationExcludingSelected(forMapView: mapView, view:  mapView.view(for: mapView.selectedAnnotations.first!)!)
         let sourceLocation = CLLocation(latitude: selectedStation!.coordinate.latitude, longitude: selectedStation!.coordinate.longitude)
         let destinationLocation = CLLocation(latitude: randomStation!.coordinate.latitude, longitude: randomStation!.coordinate.longitude)
-        
-        let paja = setRouteFor(mapView: self.mapView, locationManager: self.locationManager, sourceLocation: sourceLocation, andDestination: destinationLocation)
-        
-        print(paja?.coordinates.count)
-        
+        let coordinateRoute = setRouteFor(mapView: self.mapView, locationManager: self.locationManager, sourceLocation: sourceLocation, andDestination: destinationLocation)
+        print(coordinateRoute?.coordinates.count ?? 0)
         completion(true)
     }
     
@@ -177,7 +178,7 @@ class MapVC: UIViewController {
                     print(route.distance)
                     print("coord.......")
                     print(route.polyline.coordinates.count)
-//                    mapView.add(route.polyline)
+                    mapView.add(route.polyline)
                     
                     routeLo = route
                     coordinatesLo = route.polyline.coordinates
@@ -215,14 +216,14 @@ extension MapVC: MKMapViewDelegate {
         }
         
         if annotation is Vehicle {
-            return Station.getBUSMarkerAnnotation(mapView: mapView, andAnnotation: annotation)
+            return Vehicle.getBUSMarkerAnnotation(mapView: mapView, andAnnotation: annotation)
         } else if annotation is Station {
             return Station.getStationMarkerAnnotation(mapView: mapView, andAnnotation: annotation)
         } else {
             return Station.getStationMarkerAnnotation(mapView: mapView, andAnnotation: annotation)
         }
     }
-    
+
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         createBtn.isEnabled = true
         
@@ -245,6 +246,7 @@ extension MapVC: MKMapViewDelegate {
             let randIndex = getRandomInteger(maximum: stations.count, notAllowedInt: selectedIndex)
             let visibleStations = mapView.visibleAnnotations()
 //            let randomAnnotation = visibleStations[randIndex]
+            guard randIndex <= visibleStations.count else { return nil}
             let randomStationView = visibleStations[randIndex]
             if let randomStation = randomStationView as? Station {
                 return randomStation
@@ -269,7 +271,6 @@ extension MKMapView {
         return self.annotations(in: self.visibleMapRect).map { obj -> MKAnnotation in return obj as! MKAnnotation }
     }
 }
-
 
 public extension MKMultiPoint {
     var coordinates: [CLLocationCoordinate2D] {

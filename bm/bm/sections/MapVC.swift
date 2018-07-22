@@ -34,21 +34,21 @@ class MapVC: UIViewController {
     
     var tappedLocation: MKAnnotation? // TODO: remove
     
-    private var stations: [Station] = []
+    var stations: [Station] = []
     private var navigationTitle: String?
     private var activeVehicles: Int {
         return vehicles.count
     }
     private var vehicleRefreshTimer: Timer?
     private var statisticsRefreshTimer: Timer?
-    private var selectedStation: Station? {
+    var selectedStation: Station? {
         didSet {
 //            print("=========selectedStation OBJECT===========")
 //            print("id: \(self.selectedStation!.id)")
 //            print("title: \(self.selectedStation!.title ?? "")")
         }
     }
-    private var randomStation: Station? {
+    var randomStation: Station? {
         didSet {
 //            print("=========randomStation OBJECT===========")
 //            print("id: \(String(describing: self.randomStation?.id))")
@@ -57,22 +57,23 @@ class MapVC: UIViewController {
     }
     
     // Calculated
-    private var createBtn: UIBarButtonItem {
+    var createBtn: UIBarButtonItem {
         return navigationItem.rightBarButtonItem!
     }
-    private var isCreationOfAnotherVehiclePossible: Bool {
+    private var isMaxVehicleNumberReached: Bool {
         return isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: activeVehicles, maxAllowed: maxVehiclesAllowed)
     }
     // Constants
     private let locationManager = CLLocationManager()
     private let maxVehiclesAllowed = 10
+    let mapEngine = MapEngine()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setNavBar()
-        set(mapView: self.mapView, referenceStation: stations.first!)
+        MapEngine.set(mapView: mapView, delegate: self, stations: stations)
         setInformationFeedbackRefreshTimers()
     }
     
@@ -131,176 +132,42 @@ class MapVC: UIViewController {
         print("refreshStatsInfo")
     }
     
-    @IBAction func mapTapped(_ sender: UITapGestureRecognizer) {
-//        let locationPoint = sender.location(in: mapView)
-//        let pickedCoordinate = mapView.convert(locationPoint, toCoordinateFrom: mapView)
-//
-//        let vehicle = Vehicle(id: "xxxxx", name: "bus", image: UIImage(named: "busPin")!, latitude: pickedCoordinate.latitude, longitude: pickedCoordinate.longitude)
-////        let vehicle = Vehicle(id: "123", name: "busplus", type: "bus", latitude: pickedCoordinate.latitude, longitude: pickedCoordinate.longitude)
-//
-//        if self.tappedLocation != nil {
-//            mapView.removeAnnotation(self.tappedLocation!)
-//        }
-//
-//        self.tappedLocation = vehicle
-//        mapView.addAnnotation(vehicle)
-    }
-    
     @objc func createTravelAction(sender: UIBarButtonItem) {
-        guard isCreationOfAnotherVehiclePossible else {
-            print("\(activeVehicles) is max the number")
+        guard isMaxVehicleNumberReached else {
+            print("max number reached")
+            return
+        }
+    
+        let locations = getSourceAndDestinationLocation()
+        guard locations.source != nil, locations.destination != nil else {
             return
         }
         
-        createRoute { (isRouteCreated) in
-            guard isRouteCreated else { return }
-        }
+        mapEngine.getRoute(source: locations.source!, destination: locations.destination!, locationManager: locationManager, completion: { (route, coordinates) in
+            
+            self.mapEngine.createRoute(mapView:  self.mapView, route: route, coordinates: coordinates, completion: { (vehicle) in
+                self.vehicles.append(vehicle)
+            })
+        }, fail: { (isFail) in
+            print("lgetRoute fail")
+        })
     }
     
-    func showRoute() {
-        
-    }
-
-    // MARK: - Helper
-    func createRoute(completion: @escaping (Bool) -> ()) {
+    func getSourceAndDestinationLocation() -> (source: CLLocation?, destination: CLLocation?) {
         self.randomStation = getRandomStationExcludingSelected(forMapView: mapView, view: mapView.view(for: mapView.selectedAnnotations.first!)!)
         let sourceLocation = CLLocation(latitude: selectedStation!.coordinate.latitude, longitude: selectedStation!.coordinate.longitude)
-        
         guard self.randomStation != nil else {
-            completion(false)
-            return
+            return (nil, nil)
         }
         
         let destinationLocation = CLLocation(latitude: randomStation!.coordinate.latitude, longitude: randomStation!.coordinate.longitude)
         
-        getRouteAndCoordinatesFor(sourceLocation: sourceLocation, destinationLocation: destinationLocation, locationManager: self.locationManager) { (route, coordinates) in
-        
-            
-            self.mapView.add(route.polyline)
-            let shortCoordinates = coordinates.extractArrayElements(withStep: coordinates.count / 20)
-            
-            let vh = Vehicle(id: "00  \(self.vehicles.count + 1)", name: "Bus No: \(self.vehicles.count + 1)", image: UIImage(named: "busPin")!, latitude: sourceLocation.coordinate.latitude, longitude: sourceLocation.coordinate.longitude, route: shortCoordinates  as! [CLLocationCoordinate2D], polyline: route.polyline)
-            self.vehicles.append(vh)
-            
-            completion(true)
-        }
-    }
-    
-    func getRouteAndCoordinatesFor(sourceLocation: CLLocation, destinationLocation: CLLocation, locationManager: CLLocationManager, success: @escaping (MKRoute, [CLLocationCoordinate2D]) -> Void) {
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        
-        let sourcePlacemark = MKPlacemark(coordinate: sourceLocation.coordinate, addressDictionary: nil)
-        let destinationPlacemark = MKPlacemark(coordinate: destinationLocation.coordinate, addressDictionary: nil)
-        
-        let request = MKDirectionsRequest()
-        request.source = MKMapItem(placemark: sourcePlacemark)
-        request.destination = MKMapItem(placemark: destinationPlacemark)
-        request.requestsAlternateRoutes = false
-        request.transportType = .automobile
-        
-//        let region = MKCoordinateRegionMakeWithDistance(sourceLocation.coordinate, 15000, 15000)
-//        mapView.setRegion(region, animated: true)
-//        mapView.delegate = self
-        let directions = MKDirections(request: request)
-        
-        directions.calculate { (response, error) in
-            if error == nil {
-                for route in (response?.routes)! {
-                    print(route.distance)
-                    print("coord.......")
-                    success(route, route.polyline.coordinates)
-                }
-            }
-        }
-    }
-    
-    private func set(mapView: MKMapView, referenceStation: Station) {
-        mapView.delegate = self
-        mapView.addAnnotations(stations)
-        mapView.isRotateEnabled = false
-        mapView.mapType = .standard
-        
-        let regionRadius: CLLocationDistance = 15000
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(referenceStation.coordinate, regionRadius, regionRadius)
-        mapView.setRegion(coordinateRegion, animated: true)
-    }
-}
-
-// MARK: - MKMapViewDelegate
-extension MapVC: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor().getRandomColor()
-        renderer.lineWidth = 5.0
-        return renderer
-    }
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            return nil
-        }
-        
-        if annotation is Vehicle {
-            return Vehicle.getBUSMarkerAnnotation(mapView: mapView, andAnnotation: annotation)
-        } else if annotation is Station {
-            return Station.getStationMarkerAnnotation(mapView: mapView, andAnnotation: annotation)
-        } else {
-            return Station.getStationMarkerAnnotation(mapView: mapView, andAnnotation: annotation)
-        }
-    }
-
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        createBtn.isEnabled = true
-        
-        if let selectedStation = view.annotation as? Station {
-            self.selectedStation = selectedStation
-            if view is MKMarkerAnnotationView {
-                let mTintView = view as! MKMarkerAnnotationView
-                mTintView.markerTintColor = UIColor.selectedStation
-            }
-            
-            self.randomStation = getRandomStationExcludingSelected(forMapView: self.mapView, view: view)
-        }
-    }
-    
-    func getRandomStationExcludingSelected(forMapView mapView: MKMapView, view: MKAnnotationView) -> Station? {
-        
-        if let selectedIndex = getSelectedIndex(forMarkerAnnotationView: view as! MKMarkerAnnotationView, mapView: mapView) {
-            let randIndex = getRandomInteger(maximum: stations.count, notAllowedInt: selectedIndex)
-            let visibleStations = mapView.visibleAnnotations()
-//            let randomAnnotation = visibleStations[randIndex]
-            guard randIndex <= visibleStations.count else { return nil}
-            let randomStationView = visibleStations[randIndex]
-            if let randomStation = randomStationView as? Station {
-                return randomStation
-            }
-        }
-
-        return nil
-    }
-
-    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        if view is MKMarkerAnnotationView {
-            let mTintView = view as! MKMarkerAnnotationView
-            mTintView.markerTintColor = UIColor.nonSelectedStation
-        }
-        
-        createBtn.isEnabled = false
+        return (sourceLocation, destinationLocation)
     }
 }
 
 extension MKMapView {
     func visibleAnnotations() -> [MKAnnotation] {
         return self.annotations(in: self.visibleMapRect).map { obj -> MKAnnotation in return obj as! MKAnnotation }
-    }
-}
-
-public extension MKMultiPoint {
-    var coordinates: [CLLocationCoordinate2D] {
-        var coords = [CLLocationCoordinate2D](repeating: kCLLocationCoordinate2DInvalid,
-                                              count: pointCount)
-        getCoordinates(&coords, range: NSRange(location: 0, length: pointCount))
-        return coords
     }
 }

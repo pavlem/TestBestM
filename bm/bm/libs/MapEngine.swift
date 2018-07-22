@@ -14,13 +14,13 @@ class MapEngine {
     
     static let shared = MapEngine()
     
-    class func set(mapView: MKMapView, delegate: UIViewController, regionRadius: CLLocationDistance? = 15000, stations: [Station]) {
+    class func set(mapView: MKMapView, delegate: UIViewController, regionRadius: CLLocationDistance? = 15000, annotations: [MKAnnotation]) {
         mapView.delegate = delegate as? MKMapViewDelegate
-        mapView.addAnnotations(stations)
+        mapView.addAnnotations(annotations)
         mapView.isRotateEnabled = false
         mapView.mapType = .standard
         let regionRadius: CLLocationDistance = regionRadius!
-        if let referenceStation = stations.first {
+        if let referenceStation = annotations.first {
             let coordinateRegion = MKCoordinateRegionMakeWithDistance(referenceStation.coordinate, regionRadius, regionRadius)
             mapView.setRegion(coordinateRegion, animated: true)
         }
@@ -64,17 +64,6 @@ class MapEngine {
         completion(vh)
     }
     
-    // helper
-    func getVehicleId() -> String {
-        return String(vehicleId)
-    }
-    
-    func getVehicleName() -> String {
-        return "Bus no: " + String(vehicleId)
-    }
-    var vehicleId = 0
-    
-    
     func removeVehicleAndRoute(mapView: MKMapView, vehicle: Vehicle) {
         mapView.remove(vehicle.polyline)
         mapView.removeAnnotation(vehicle)
@@ -89,5 +78,14 @@ class MapEngine {
         }
         mapView.addAnnotation(vehicle)
     }
+    // MARK: - Helper
+    private var vehicleId = 0
 
+    private func getVehicleId() -> String {
+        return String(vehicleId)
+    }
+    
+    private func getVehicleName() -> String {
+        return "Bus no: " + String(vehicleId)
+    }
 }

@@ -160,7 +160,6 @@
 				9EEC69C020FB526B00B09525 /* MainVC.swift */,
 				9EEC69C220FB533B00B09525 /* MapVC.swift */,
 				9E3C127C21049F52000AFD82 /* MapVC+Delegate.swift */,
-				9E3C127821049BBF000AFD82 /* MapEngine.swift */,
 			);
 			path = sections;
 			sourceTree = "<group>";
@@ -180,6 +179,7 @@
 		9EEC69C820FB586000B09525 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				9E3C127821049BBF000AFD82 /* MapEngine.swift */,
 				9E3C127E2104B290000AFD82 /* AlertHelper.swift */,
 				9E4B62B120FF30D7009CC771 /* HelperFunctions.swift */,
 				9EEC69C420FB559B00B09525 /* Constants.swift */,

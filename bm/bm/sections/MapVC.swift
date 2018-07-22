@@ -25,9 +25,8 @@ class MapVC: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     // Vars
     var vehicles = [Vehicle]() { didSet { if vehicles.count == 0 { print("gotovo.....") } } } //TODO:rem didS...
-    var tappedLocation: MKAnnotation? // TODO: remove
+    var stations = [Station]()
     
-    var stations: [Station] = []
     private var navigationTitle: String?
     private var activeVehicles: Int {
         return vehicles.count
@@ -66,8 +65,8 @@ class MapVC: UIViewController {
         super.viewDidLoad()
         
         setNavBar()
-        MapEngine.set(mapView: mapView, delegate: self, stations: stations)
-        setTimers()
+        MapEngine.set(mapView: mapView, delegate: self, annotations: stations)
+        setRefreshTimers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -82,7 +81,7 @@ class MapVC: UIViewController {
         statisticsRefreshTimer?.invalidate()
     }
     
-    private func setTimers() {
+    private func setRefreshTimers() {
         vehicleRefreshTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshVehiclInfo), userInfo: nil, repeats: true)
 //        statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
     }
@@ -121,7 +120,6 @@ class MapVC: UIViewController {
         }
         
         mapEngine.getRoute(source: locations.source!, destination: locations.destination!, locationManager: locationManager, completion: { (route, coordinates) in
-            
             self.mapEngine.createRoute(mapView:  self.mapView, route: route, coordinates: coordinates, completion: { (vehicle) in
                 self.vehicles.append(vehicle)
             })

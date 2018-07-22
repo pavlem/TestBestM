@@ -24,14 +24,7 @@ class MapVC: UIViewController {
     // Outlets
     @IBOutlet weak var mapView: MKMapView!
     // Vars
-    var vehicles = [Vehicle]() {
-        didSet {
-            if vehicles.count == 0 {
-                print("gotovo.....")
-            }
-        }
-    }
-    
+    var vehicles = [Vehicle]() { didSet { if vehicles.count == 0 { print("gotovo.....") } } } //TODO:rem didS...
     var tappedLocation: MKAnnotation? // TODO: remove
     
     var stations: [Station] = []
@@ -64,9 +57,9 @@ class MapVC: UIViewController {
         return isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: activeVehicles, maxAllowed: maxVehiclesAllowed)
     }
     // Constants
+    private let mapEngine = MapEngine()
     private let locationManager = CLLocationManager()
     private let maxVehiclesAllowed = 10
-    let mapEngine = MapEngine()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -74,7 +67,7 @@ class MapVC: UIViewController {
         
         setNavBar()
         MapEngine.set(mapView: mapView, delegate: self, stations: stations)
-        setInformationFeedbackRefreshTimers()
+        setTimers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,7 +82,7 @@ class MapVC: UIViewController {
         statisticsRefreshTimer?.invalidate()
     }
     
-    private func setInformationFeedbackRefreshTimers() {
+    private func setTimers() {
         vehicleRefreshTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshVehiclInfo), userInfo: nil, repeats: true)
 //        statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
     }
@@ -108,23 +101,7 @@ class MapVC: UIViewController {
     // MARK: - Actions
     @objc func refreshVehiclInfo(sender: Timer) {
         for v in vehicles {
-//            print("\(v.name) - remaining stations \(v.route.count)")
-            if v.route.count == 0 {
-                print("gotovo")
-                if let index = vehicles.index(of: v) {
-                    vehicles.remove(at: index)
-                    mapView.remove(v.polyline)
-                    mapView.removeAnnotation(v)
-                }
-            } else {
-                mapView.removeAnnotation(v)
-                v.route.remove(at: 0)
-                if let currentLocation2D = v.route.first {
-                    let currentLocation = CLLocation(latitude: currentLocation2D.latitude, longitude: currentLocation2D.longitude)
-                    v.location = currentLocation
-                }
-                mapView.addAnnotation(v)
-            }
+            handle(vehicle: v)
         }
     }
     
@@ -134,7 +111,7 @@ class MapVC: UIViewController {
     
     @objc func createTravelAction(sender: UIBarButtonItem) {
         guard isMaxVehicleNumberReached else {
-            print("max number reached")
+            AlertHelper.presentAlert(title: "warning", message: "Max Number Reached", onViewController: self)
             return
         }
     
@@ -163,6 +140,17 @@ class MapVC: UIViewController {
         let destinationLocation = CLLocation(latitude: randomStation!.coordinate.latitude, longitude: randomStation!.coordinate.longitude)
         
         return (sourceLocation, destinationLocation)
+    }
+    
+    func handle(vehicle: Vehicle) {
+        if vehicle.route.count == 0 {
+            if let index = vehicles.index(of: vehicle) {
+                mapEngine.removeVehicleAndRoute(mapView: self.mapView, vehicle: vehicle)
+                vehicles.remove(at: index)
+            }
+        } else {
+            mapEngine.updateMapForVehicle(mapView: self.mapView, vehicle: vehicle)
+        }
     }
 }
 

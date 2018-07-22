@@ -73,4 +73,21 @@ class MapEngine {
         return "Bus no: " + String(vehicleId)
     }
     var vehicleId = 0
+    
+    
+    func removeVehicleAndRoute(mapView: MKMapView, vehicle: Vehicle) {
+        mapView.remove(vehicle.polyline)
+        mapView.removeAnnotation(vehicle)
+    }
+    
+    func updateMapForVehicle(mapView: MKMapView, vehicle: Vehicle) {
+        mapView.removeAnnotation(vehicle)
+        vehicle.route.remove(at: 0)
+        if let currentLocation2D = vehicle.route.first {
+            let currentLocation = CLLocation(latitude: currentLocation2D.latitude, longitude: currentLocation2D.longitude)
+            vehicle.location = currentLocation
+        }
+        mapView.addAnnotation(vehicle)
+    }
+
 }

@@ -24,7 +24,7 @@ class MapVC: UIViewController {
     // Outlets
     @IBOutlet weak var mapView: MKMapView!
     // Vars
-    var vehicles = [Vehicle]() { didSet { if vehicles.count == 0 { print("gotovo.....") } } } //TODO:rem didS...
+    var vehicles = [Vehicle]()
     var stations = [Station]()
     
     private var navigationTitle: String?
@@ -35,17 +35,25 @@ class MapVC: UIViewController {
     private var statisticsRefreshTimer: Timer?
     var selectedStation: Station? {
         didSet {
-//            print("=========selectedStation OBJECT===========")
-//            print("id: \(self.selectedStation!.id)")
-//            print("title: \(self.selectedStation!.title ?? "")")
+            print("=========selectedStation OBJECT===========")
+            print("id: \(self.selectedStation!.id)")
+            print("title: \(self.selectedStation!.title ?? "")")
         }
     }
     var randomStation: Station? {
         didSet {
-//            print("=========randomStation OBJECT===========")
-//            print("id: \(String(describing: self.randomStation?.id))")
-//            print("title: \(self.randomStation?.title ?? "")")
+            print("=========randomStation OBJECT===========")
+            print("id: \(String(describing: self.randomStation?.id))")
+            print("title: \(self.randomStation?.title ?? "")")
         }
+    }
+    
+    var sourceLocation: CLLocation {
+        return CLLocation(latitude: selectedStation!.coordinate.latitude, longitude: selectedStation!.coordinate.longitude)
+    }
+    
+    var destinationLocation: CLLocation {
+        return CLLocation(latitude: randomStation!.coordinate.latitude, longitude: randomStation!.coordinate.longitude)
     }
     
     // Calculated
@@ -110,16 +118,11 @@ class MapVC: UIViewController {
     
     @objc func createTravelAction(sender: UIBarButtonItem) {
         guard isMaxVehicleNumberReached else {
-            AlertHelper.presentAlert(title: "warning", message: "Max Number Reached", onViewController: self)
+            AlertHelper.presentAlert(title: "Warning", message: "Max Number Of Vehicles Reached", onViewController: self)
             return
         }
-    
-        let locations = getSourceAndDestinationLocation()
-        guard locations.source != nil, locations.destination != nil else {
-            return
-        }
-        
-        mapEngine.getRoute(source: locations.source!, destination: locations.destination!, locationManager: locationManager, completion: { (route, coordinates) in
+        setRandomStation()
+        mapEngine.getRoute(source: sourceLocation, destination: destinationLocation, locationManager: locationManager, completion: { (route, coordinates) in
             self.mapEngine.createRoute(mapView:  self.mapView, route: route, coordinates: coordinates, completion: { (vehicle) in
                 self.vehicles.append(vehicle)
             })
@@ -128,16 +131,8 @@ class MapVC: UIViewController {
         })
     }
     
-    func getSourceAndDestinationLocation() -> (source: CLLocation?, destination: CLLocation?) {
-        self.randomStation = getRandomStationExcludingSelected(forMapView: mapView, view: mapView.view(for: mapView.selectedAnnotations.first!)!)
-        let sourceLocation = CLLocation(latitude: selectedStation!.coordinate.latitude, longitude: selectedStation!.coordinate.longitude)
-        guard self.randomStation != nil else {
-            return (nil, nil)
-        }
-        
-        let destinationLocation = CLLocation(latitude: randomStation!.coordinate.latitude, longitude: randomStation!.coordinate.longitude)
-        
-        return (sourceLocation, destinationLocation)
+    func setRandomStation() {
+        self.randomStation = getRandomStation(fromStations: self.stations, excludingStation: self.selectedStation!)
     }
     
     func handle(vehicle: Vehicle) {

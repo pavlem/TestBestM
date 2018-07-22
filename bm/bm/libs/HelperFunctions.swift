@@ -35,7 +35,6 @@ func logSelectedAnnotation(mapView: MKMapView, view: MKAnnotationView, stations:
     }
 }
 
-
 // Utility
 func getRandomInteger(maximum: Int, notAllowedInt: Int) -> Int { //TODO: Unit Test
     let randomInt = random(maximum)

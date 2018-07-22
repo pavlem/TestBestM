@@ -11,8 +11,6 @@ import UIKit
 class MainVC: UIViewController {
     
     // MARK: - Properties
-    // Vars
-    var stations = [Station]()
     // Outlets
     @IBOutlet weak var getStationsBtn: UIButton!
     
@@ -21,14 +19,6 @@ class MainVC: UIViewController {
         super.viewWillAppear(animated)
         
         self.getStationsBtn.isEnabled = true
-        
-        // TODO: Remove later
-//        fetchStations { (stations) in
-//            let mapVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardID.mapVC) as! MapVC
-//            mapVC.set(navigationTitle: "Map List")
-//            mapVC.set(stations: stations)
-//            self.show(mapVC, sender: nil)
-//        }
     }
     
     // MARK: - Actions

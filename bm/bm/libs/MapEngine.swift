@@ -78,6 +78,7 @@ class MapEngine {
         }
         mapView.addAnnotation(vehicle)
     }
+    
     // MARK: - Helper
     private var vehicleId = 0
 

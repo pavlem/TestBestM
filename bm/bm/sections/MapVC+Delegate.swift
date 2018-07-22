@@ -41,32 +41,17 @@ extension MapVC: MKMapViewDelegate {
                 let mTintView = view as! MKMarkerAnnotationView
                 mTintView.markerTintColor = UIColor.selectedStation
             }
-            
-            self.randomStation = getRandomStationExcludingSelected(forMapView: self.mapView, view: view)
         }
     }
     
-    func getRandomStationExcludingSelected(forMapView mapView: MKMapView, view: MKAnnotationView) -> Station? {
-        
-        if let selectedIndex = getSelectedIndex(forMarkerAnnotationView: view as! MKMarkerAnnotationView, mapView: mapView) {
-            let randIndex = getRandomInteger(maximum: stations.count, notAllowedInt: selectedIndex)
-            let visibleStations = mapView.visibleAnnotations()
-            //            let randomAnnotation = visibleStations[randIndex]
-            guard randIndex <= visibleStations.count else { return nil}
-            let randomStationView = visibleStations[randIndex]
-            if let randomStation = randomStationView as? Station {
-                return randomStation
-            }
+    func getRandomStation(fromStations stations: [Station], excludingStation: Station) -> Station? {
+        if let indexOfSelectedStation = stations.index(of: excludingStation) {
+            let randomStationInt = getRandomInteger(maximum: stations.count, notAllowedInt: indexOfSelectedStation)
+            return stations[randomStationInt]
         }
-        
-        if let selectedStation = view.annotation as? Station {
-            print(selectedStation.title ?? "")
-            print("======")
-        }
-        print("========getRandomStationExcludingSelected error========")
-        
         return nil
     }
+    
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         if view is MKMarkerAnnotationView {

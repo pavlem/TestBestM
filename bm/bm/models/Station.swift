@@ -25,6 +25,13 @@ class Station: NSObject {
         location = CLLocation(latitude: latitude, longitude: longitude)
     }
     
+    init(stationRealm: StationRealm) {
+        self.id = stationRealm.id
+        self.name = stationRealm.name
+        self.type = stationRealm.type
+        self.location = CLLocation(latitude: stationRealm.latitude, longitude: stationRealm.longitude)
+    }
+    
     init(id: String, name: String, type: String, latitude: Double, longitude: Double) {
         self.id = id
         self.name = name

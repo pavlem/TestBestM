@@ -68,7 +68,21 @@ class DbHelper {
 
 // MARK: - Heroes
 extension DbHelper {
+    
+    func persist(stations: [StationRealm]) {
+        for s in stations {
+            if let station = realm.object(ofType: StationRealm.self, forPrimaryKey: s.id) {
+                self.update(object: station)
+            } else {
+                self.add(object: s)
+            }
+        }
+    }
 
+    func fetchAllStationsFromDB() -> [StationRealm] {
+        return Array(realm.objects(StationRealm.self))
+    }
+    
 //    func getFavoriteHeores() -> [HeroRealm]? {
 //        return Array(realm.objects(HeroRealm.self))
 //    }

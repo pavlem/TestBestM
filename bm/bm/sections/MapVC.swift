@@ -24,12 +24,10 @@ class MapVC: UIViewController {
     // Outlets
     @IBOutlet weak var mapView: MKMapView!
     // Vars
-    var vehicles = [Vehicle]()
-    var stations = [Station]()
-    
+    private var stations = [Station]()
     private var navigationTitle: String?
     private var activeVehicles: Int {
-        return vehicles.count
+        return stationEngine.vehicles.count
     }
     private var vehicleRefreshTimer: Timer?
     private var statisticsRefreshTimer: Timer?
@@ -65,6 +63,7 @@ class MapVC: UIViewController {
     }
     // Constants
     private let mapEngine = MapEngine()
+    private let stationEngine = StationEngine()
     private let locationManager = CLLocationManager()
     private let maxVehiclesAllowed = 10
     
@@ -74,6 +73,7 @@ class MapVC: UIViewController {
         
         setNavBar()
         MapEngine.set(mapView: mapView, delegate: self, annotations: stations)
+        stationEngine.set(stations: self.stations)
         setRefreshTimers()
     }
     
@@ -90,7 +90,7 @@ class MapVC: UIViewController {
     }
     
     private func setRefreshTimers() {
-        vehicleRefreshTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshVehiclInfo), userInfo: nil, repeats: true)
+        vehicleRefreshTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshVehicleInfo), userInfo: nil, repeats: true)
 //        statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
     }
     
@@ -106,9 +106,13 @@ class MapVC: UIViewController {
     }
     
     // MARK: - Actions
-    @objc func refreshVehiclInfo(sender: Timer) {
-        for v in vehicles {
-            handle(vehicle: v)
+    @objc func refreshVehicleInfo(sender: Timer) {
+        stationEngine.refreshVehicleStatus { (isDestinationReached, vehicle) in
+            guard isDestinationReached == false else {
+                self.mapEngine.removeVehicleAndRoute(mapView: self.mapView, vehicle: vehicle)
+                return
+            }
+            self.mapEngine.updateMapForVehicle(mapView: self.mapView, vehicle: vehicle)
         }
     }
     
@@ -124,7 +128,7 @@ class MapVC: UIViewController {
         setRandomStation()
         mapEngine.getRoute(source: sourceLocation, destination: destinationLocation, locationManager: locationManager, completion: { (route, coordinates) in
             self.mapEngine.createRoute(mapView:  self.mapView, route: route, coordinates: coordinates, completion: { (vehicle) in
-                self.vehicles.append(vehicle)
+                self.stationEngine.vehicles.append(vehicle)
             })
         }, fail: { (isFail) in
             print("lgetRoute fail")
@@ -132,18 +136,7 @@ class MapVC: UIViewController {
     }
     
     func setRandomStation() {
-        self.randomStation = getRandomStation(fromStations: self.stations, excludingStation: self.selectedStation!)
-    }
-    
-    func handle(vehicle: Vehicle) {
-        if vehicle.route.count == 0 {
-            if let index = vehicles.index(of: vehicle) {
-                mapEngine.removeVehicleAndRoute(mapView: self.mapView, vehicle: vehicle)
-                vehicles.remove(at: index)
-            }
-        } else {
-            mapEngine.updateMapForVehicle(mapView: self.mapView, vehicle: vehicle)
-        }
+        self.randomStation = getRandomStation(fromStations: stationEngine.stations, excludingStation: self.selectedStation!)
     }
 }
 

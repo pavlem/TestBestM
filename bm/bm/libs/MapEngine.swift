@@ -12,7 +12,7 @@ import MapKit
 
 class MapEngine {
     
-    static let shared = MapEngine()
+//    static let shared = MapEngine()
     
     class func set(mapView: MKMapView, delegate: UIViewController, regionRadius: CLLocationDistance? = 15000, annotations: [MKAnnotation]) {
         mapView.delegate = delegate as? MKMapViewDelegate

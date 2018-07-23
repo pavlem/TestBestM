@@ -43,4 +43,19 @@ class bmTests: XCTestCase {
         XCTAssert(stEngine.isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: 3, maxAllowed: 10) == false, "🍊🍊, isMaxAllowedVehicleNumberReached not ok")
         XCTAssert(stEngine.isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: 11, maxAllowed: 10) == false, "🍊🍊, isMaxAllowedVehicleNumberReached not ok")
     }
+    
+    func testGetRandomStation() {
+        let stEngine = StationEngine()
+        let st1 = Station(id: "11", name: "St 1", type: "bus", latitude: 0.0, longitude: 0.0)
+        let st2 = Station(id: "22", name: "St 2", type: "bus", latitude: 0.0, longitude: 0.0)
+        let st3 = Station(id: "33", name: "St 3", type: "bus", latitude: 0.0, longitude: 0.0)
+        let st4 = Station(id: "44", name: "St 4", type: "bus", latitude: 0.0, longitude: 0.0)
+        let st5 = Station(id: "55", name: "St 5", type: "bus", latitude: 0.0, longitude: 0.0)
+        let stArray = [st1, st2, st3, st4, st5]
+        XCTAssert(stEngine.getRandomStation(fromStations: stArray, excludingStation: st1) != st1, "🍊🍊, getRandomStation not ok")
+        XCTAssert(stEngine.getRandomStation(fromStations: stArray, excludingStation: st2) != st2, "🍊🍊, getRandomStation not ok")
+        XCTAssert(stEngine.getRandomStation(fromStations: stArray, excludingStation: st3) != st3, "🍊🍊, getRandomStation not ok")
+        XCTAssert(stEngine.getRandomStation(fromStations: stArray, excludingStation: st4) != st4, "🍊🍊, getRandomStation not ok")
+        XCTAssert(stEngine.getRandomStation(fromStations: stArray, excludingStation: st5) != st5, "🍊🍊, getRandomStation not ok")
+    }
 }

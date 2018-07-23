@@ -78,13 +78,9 @@ class StationEngine {
         }
         
         return false
-//        guard currentNumberOfVehicles < maxAllowed else {
-//            return false
-//        }
-//        return true
     }
 
-    private func getRandomStation(fromStations stations: [Station], excludingStation: Station) -> Station? {
+    func getRandomStation(fromStations stations: [Station], excludingStation: Station) -> Station? {
         if let indexOfSelectedStation = stations.index(of: excludingStation) {
             let randomStationInt = getRandomInteger(maximum: stations.count, notAllowedInt: indexOfSelectedStation)
             return stations[randomStationInt]

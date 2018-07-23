@@ -21,6 +21,6 @@ extension UIColor {
     }
     
     static var nonSelectedStation: UIColor {
-        return .green
+        return .blue
     }
 }

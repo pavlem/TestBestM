@@ -46,7 +46,10 @@ class MapVC: UIViewController {
         return navigationItem.rightBarButtonItem!
     }
     private var isMaxVehicleNumberReached: Bool {
-        return isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: activeVehicles, maxAllowed: maxVehiclesAllowed)
+        let isMaxAllowedVehicleNumberReached = stationEngine.isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: activeVehicles, maxAllowed: maxVehiclesAllowed)
+        
+        print(isMaxAllowedVehicleNumberReached)
+        return stationEngine.isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: activeVehicles, maxAllowed: maxVehiclesAllowed)
     }
     // Constants
     private let mapEngine = MapEngine()
@@ -124,7 +127,7 @@ class MapVC: UIViewController {
     }
     
     @objc func createTravelAction(sender: UIBarButtonItem) {
-        guard isMaxVehicleNumberReached else {
+        guard isMaxVehicleNumberReached == false else {
             AlertHelper.presentAlert(title: "waring".localized, message: "maxVehicleNoReached".localized, onViewController: self)
             return
         }

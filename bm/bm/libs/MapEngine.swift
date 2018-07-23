@@ -12,8 +12,6 @@ import MapKit
 
 class MapEngine {
     
-//    static let shared = MapEngine()
-    
     class func set(mapView: MKMapView, delegate: UIViewController, regionRadius: CLLocationDistance? = 15000, annotations: [MKAnnotation]) {
         mapView.delegate = delegate as? MKMapViewDelegate
         mapView.addAnnotations(annotations)
@@ -79,9 +77,10 @@ class MapEngine {
         mapView.addAnnotation(vehicle)
     }
     
-    // MARK: - Helper
+    // MARK: - Properties
     private var vehicleId = 0
 
+    // MARK: - Helper
     private func getVehicleId() -> String {
         return String(vehicleId)
     }

@@ -19,15 +19,14 @@ struct Statistics {
 
 class StationEngine {
     
-    var vehicleStats = Statistics(title: "Stats", currentNumberOfVehicles: 0, totalNumberOfVehiclesCreated: 0, totalTimeInSeconds: 0)
-    
-    func updateStats() {
-        vehicleStats.currentNumberOfVehicles = vehicles.count
-    }
-    
     // MARK: - API
     func set(stations: [Station]) {
         self.stations = stations
+    }
+    
+    
+    func updateStats() {
+        vehicleStats.currentNumberOfVehicles = vehicles.count
     }
     
     func refreshVehicleStatus(completion: @escaping (Bool, Vehicle) -> Void) {
@@ -52,22 +51,11 @@ class StationEngine {
         updateStats()
     }
     
+    var vehicleStats = Statistics(title: "Stats", currentNumberOfVehicles: 0, totalNumberOfVehiclesCreated: 0, totalTimeInSeconds: 0)
     var vehicles = [Vehicle]()
 
-    var selectedStation: Station? {
-        didSet {
-            print("=========selectedStation OBJECT===========")
-            print("id: \(self.selectedStation!.id)")
-            print("title: \(self.selectedStation!.title ?? "")")
-        }
-    }
-    var randomStation: Station? {
-        didSet {
-            print("=========randomStation OBJECT===========")
-            print("id: \(String(describing: self.randomStation?.id))")
-            print("title: \(self.randomStation?.title ?? "")")
-        }
-    }
+    var selectedStation: Station?
+    var randomStation: Station?
     
     func setRandomStation() {
         self.randomStation = self.getRandomStation(fromStations: self.stations, excludingStation: self.selectedStation!)
@@ -80,12 +68,22 @@ class StationEngine {
     var totalNumberOfVehiclesCreated = 0
     var totalTimeInSeconds = 0
     
-    
-    
     private var stations = [Station]()
     
     
     // MARK: - Helper
+    func isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: Int, maxAllowed: Int) -> Bool {
+        if currentNumberOfVehicles == maxAllowed {
+            return true
+        }
+        
+        return false
+//        guard currentNumberOfVehicles < maxAllowed else {
+//            return false
+//        }
+//        return true
+    }
+
     private func getRandomStation(fromStations stations: [Station], excludingStation: Station) -> Station? {
         if let indexOfSelectedStation = stations.index(of: excludingStation) {
             let randomStationInt = getRandomInteger(maximum: stations.count, notAllowedInt: indexOfSelectedStation)

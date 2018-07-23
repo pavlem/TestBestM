@@ -13,6 +13,8 @@
 		9E048BBC2105E3B600FBE90C /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E048BBB2105E3B500FBE90C /* FileHelper.swift */; };
 		9E048BBE2105E48600FBE90C /* StationRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E048BBD2105E48600FBE90C /* StationRealm.swift */; };
 		9E1EDD892105F95800D0FEC5 /* ParserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1EDD882105F95800D0FEC5 /* ParserHelper.swift */; };
+		9E1EDDE22106058900D0FEC5 /* Starts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E1EDDE12106058900D0FEC5 /* Starts.storyboard */; };
+		9E1EDDE4210605BB00D0FEC5 /* StartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1EDDE3210605BB00D0FEC5 /* StartVC.swift */; };
 		9E3C127921049BBF000AFD82 /* MapEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3C127821049BBF000AFD82 /* MapEngine.swift */; };
 		9E3C127B21049F07000AFD82 /* MKMultiPoint+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3C127A21049F07000AFD82 /* MKMultiPoint+Extension.swift */; };
 		9E3C127D21049F52000AFD82 /* MapVC+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3C127C21049F52000AFD82 /* MapVC+Delegate.swift */; };
@@ -62,6 +64,8 @@
 		9E048BBB2105E3B500FBE90C /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		9E048BBD2105E48600FBE90C /* StationRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationRealm.swift; sourceTree = "<group>"; };
 		9E1EDD882105F95800D0FEC5 /* ParserHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserHelper.swift; sourceTree = "<group>"; };
+		9E1EDDE12106058900D0FEC5 /* Starts.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Starts.storyboard; sourceTree = "<group>"; };
+		9E1EDDE3210605BB00D0FEC5 /* StartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartVC.swift; sourceTree = "<group>"; };
 		9E3C127821049BBF000AFD82 /* MapEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEngine.swift; sourceTree = "<group>"; };
 		9E3C127A21049F07000AFD82 /* MKMultiPoint+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMultiPoint+Extension.swift"; sourceTree = "<group>"; };
 		9E3C127C21049F52000AFD82 /* MapVC+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapVC+Delegate.swift"; sourceTree = "<group>"; };
@@ -176,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				9EEC69C020FB526B00B09525 /* MainVC.swift */,
+				9E1EDDE3210605BB00D0FEC5 /* StartVC.swift */,
 				9EEC69C220FB533B00B09525 /* MapVC.swift */,
 				9E3C127C21049F52000AFD82 /* MapVC+Delegate.swift */,
 			);
@@ -188,6 +193,7 @@
 				9EEC69D920FB7A1700B09525 /* stationMOCList.json */,
 				9EEC699220FB440100B09525 /* AppDelegate.swift */,
 				9EEC699620FB440100B09525 /* Main.storyboard */,
+				9E1EDDE12106058900D0FEC5 /* Starts.storyboard */,
 				9EEC699B20FB440300B09525 /* LaunchScreen.storyboard */,
 				9EEC699920FB440300B09525 /* Assets.xcassets */,
 			);
@@ -340,6 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EEC69DA20FB7A1700B09525 /* stationMOCList.json in Resources */,
+				9E1EDDE22106058900D0FEC5 /* Starts.storyboard in Resources */,
 				9EEC699D20FB440300B09525 /* LaunchScreen.storyboard in Resources */,
 				9EEC699A20FB440300B09525 /* Assets.xcassets in Resources */,
 				9EEC699820FB440100B09525 /* Main.storyboard in Resources */,
@@ -398,6 +405,7 @@
 				9EA0FD4B20FF93E700740480 /* Array+Extension.swift in Sources */,
 				9E3C12812104C3EE000AFD82 /* StationEngine.swift in Sources */,
 				9E3C127921049BBF000AFD82 /* MapEngine.swift in Sources */,
+				9E1EDDE4210605BB00D0FEC5 /* StartVC.swift in Sources */,
 				9EEC69CB20FB588B00B09525 /* Station.swift in Sources */,
 				9E6C4C3A20FE77B600E57F10 /* UIStoryboard+Extension.swift in Sources */,
 				9E3C127D21049F52000AFD82 /* MapVC+Delegate.swift in Sources */,

@@ -42,5 +42,19 @@ class StationEngine {
     
     var vehicles = [Vehicle]()
 
+    var selectedStation: Station? {
+        didSet {
+            print("=========selectedStation OBJECT===========")
+            print("id: \(self.selectedStation!.id)")
+            print("title: \(self.selectedStation!.title ?? "")")
+        }
+    }
+    var randomStation: Station? {
+        didSet {
+            print("=========randomStation OBJECT===========")
+            print("id: \(String(describing: self.randomStation?.id))")
+            print("title: \(self.randomStation?.title ?? "")")
+        }
+    }
     
 }

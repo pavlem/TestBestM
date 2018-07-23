@@ -31,27 +31,13 @@ class MapVC: UIViewController {
     }
     private var vehicleRefreshTimer: Timer?
     private var statisticsRefreshTimer: Timer?
-    var selectedStation: Station? {
-        didSet {
-            print("=========selectedStation OBJECT===========")
-            print("id: \(self.selectedStation!.id)")
-            print("title: \(self.selectedStation!.title ?? "")")
-        }
-    }
-    var randomStation: Station? {
-        didSet {
-            print("=========randomStation OBJECT===========")
-            print("id: \(String(describing: self.randomStation?.id))")
-            print("title: \(self.randomStation?.title ?? "")")
-        }
-    }
     
     var sourceLocation: CLLocation {
-        return CLLocation(latitude: selectedStation!.coordinate.latitude, longitude: selectedStation!.coordinate.longitude)
+        return CLLocation(latitude: stationEngine.selectedStation!.coordinate.latitude, longitude: stationEngine.selectedStation!.coordinate.longitude)
     }
     
     var destinationLocation: CLLocation {
-        return CLLocation(latitude: randomStation!.coordinate.latitude, longitude: randomStation!.coordinate.longitude)
+        return CLLocation(latitude: stationEngine.randomStation!.coordinate.latitude, longitude: stationEngine.randomStation!.coordinate.longitude)
     }
     
     // Calculated
@@ -63,7 +49,7 @@ class MapVC: UIViewController {
     }
     // Constants
     private let mapEngine = MapEngine()
-    private let stationEngine = StationEngine()
+    let stationEngine = StationEngine()
     private let locationManager = CLLocationManager()
     private let maxVehiclesAllowed = 10
     
@@ -136,7 +122,7 @@ class MapVC: UIViewController {
     }
     
     func setRandomStation() {
-        self.randomStation = getRandomStation(fromStations: stationEngine.stations, excludingStation: self.selectedStation!)
+        stationEngine.randomStation = getRandomStation(fromStations: stationEngine.stations, excludingStation: stationEngine.selectedStation!)
     }
 }
 

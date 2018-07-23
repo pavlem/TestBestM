@@ -36,7 +36,7 @@ extension MapVC: MKMapViewDelegate {
         createBtn.isEnabled = true
         
         if let selectedStation = view.annotation as? Station {
-            self.selectedStation = selectedStation
+            stationEngine.selectedStation = selectedStation
             if view is MKMarkerAnnotationView {
                 let mTintView = view as! MKMarkerAnnotationView
                 mTintView.markerTintColor = UIColor.selectedStation

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E048BB62105E05600FBE90C /* DbHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E048BB52105E05600FBE90C /* DbHelper.swift */; };
+		9E048BB92105E38300FBE90C /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E048BB72105E38300FBE90C /* RealmSwift.framework */; };
+		9E048BBA2105E38300FBE90C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E048BB82105E38300FBE90C /* Realm.framework */; };
+		9E048BBC2105E3B600FBE90C /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E048BBB2105E3B500FBE90C /* FileHelper.swift */; };
+		9E048BBE2105E48600FBE90C /* StationRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E048BBD2105E48600FBE90C /* StationRealm.swift */; };
 		9E3C127921049BBF000AFD82 /* MapEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3C127821049BBF000AFD82 /* MapEngine.swift */; };
 		9E3C127B21049F07000AFD82 /* MKMultiPoint+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3C127A21049F07000AFD82 /* MKMultiPoint+Extension.swift */; };
 		9E3C127D21049F52000AFD82 /* MapVC+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3C127C21049F52000AFD82 /* MapVC+Delegate.swift */; };
@@ -50,6 +55,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9E048BB52105E05600FBE90C /* DbHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DbHelper.swift; sourceTree = "<group>"; };
+		9E048BB72105E38300FBE90C /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
+		9E048BB82105E38300FBE90C /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
+		9E048BBB2105E3B500FBE90C /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
+		9E048BBD2105E48600FBE90C /* StationRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationRealm.swift; sourceTree = "<group>"; };
 		9E3C127821049BBF000AFD82 /* MapEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEngine.swift; sourceTree = "<group>"; };
 		9E3C127A21049F07000AFD82 /* MKMultiPoint+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMultiPoint+Extension.swift"; sourceTree = "<group>"; };
 		9E3C127C21049F52000AFD82 /* MapVC+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapVC+Delegate.swift"; sourceTree = "<group>"; };
@@ -87,6 +97,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EEC69D420FB5FD100B09525 /* MapKit.framework in Frameworks */,
+				9E048BB92105E38300FBE90C /* RealmSwift.framework in Frameworks */,
+				9E048BBA2105E38300FBE90C /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +195,8 @@
 		9EEC69C820FB586000B09525 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				9E048BBB2105E3B500FBE90C /* FileHelper.swift */,
+				9E048BB52105E05600FBE90C /* DbHelper.swift */,
 				9E3C127821049BBF000AFD82 /* MapEngine.swift */,
 				9E3C12842105D4F0000AFD82 /* StatisticView.swift */,
 				9E3C12802104C3EE000AFD82 /* StationEngine.swift */,
@@ -202,6 +216,7 @@
 			children = (
 				9E9E8F7F2101193B00E7B467 /* Vehicle.swift */,
 				9EEC69CA20FB588B00B09525 /* Station.swift */,
+				9E048BBD2105E48600FBE90C /* StationRealm.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -209,6 +224,8 @@
 		9EEC69D220FB5FD000B09525 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9E048BB82105E38300FBE90C /* Realm.framework */,
+				9E048BB72105E38300FBE90C /* RealmSwift.framework */,
 				9EEC69D320FB5FD100B09525 /* MapKit.framework */,
 			);
 			name = Frameworks;
@@ -224,6 +241,7 @@
 				9EEC698B20FB440100B09525 /* Sources */,
 				9EEC698C20FB440100B09525 /* Frameworks */,
 				9EEC698D20FB440100B09525 /* Resources */,
+				9E048BB42105E00F00FBE90C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -341,6 +359,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9E048BB42105E00F00FBE90C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CryptoSwift.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Realm.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9EEC698B20FB440100B09525 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -351,6 +389,7 @@
 				9E6C4C3C20FE827300E57F10 /* UIColor+Extension.swift in Sources */,
 				9E4B62B220FF30D7009CC771 /* HelperFunctions.swift in Sources */,
 				9EEC69C120FB526B00B09525 /* MainVC.swift in Sources */,
+				9E048BBC2105E3B600FBE90C /* FileHelper.swift in Sources */,
 				9E3C127F2104B290000AFD82 /* AlertHelper.swift in Sources */,
 				9EA0FD4B20FF93E700740480 /* Array+Extension.swift in Sources */,
 				9E3C12812104C3EE000AFD82 /* StationEngine.swift in Sources */,
@@ -360,8 +399,10 @@
 				9E3C127D21049F52000AFD82 /* MapVC+Delegate.swift in Sources */,
 				9EEC69C320FB533B00B09525 /* MapVC.swift in Sources */,
 				9EEC699320FB440100B09525 /* AppDelegate.swift in Sources */,
+				9E048BB62105E05600FBE90C /* DbHelper.swift in Sources */,
 				9E9E8F802101193B00E7B467 /* Vehicle.swift in Sources */,
 				9EEC69C520FB559B00B09525 /* Constants.swift in Sources */,
+				9E048BBE2105E48600FBE90C /* StationRealm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +577,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PN4TAKFT47;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = bm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -554,6 +599,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PN4TAKFT47;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = bm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

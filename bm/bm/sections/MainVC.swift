@@ -25,10 +25,19 @@ class MainVC: UIViewController {
     @IBAction func getStations(_ sender: UIButton) {
         self.getStationsBtn.isEnabled = false
         
-        fetchStations { (stations) in
+        fetchStations { (stations, stationsR) in
             let mapVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardID.mapVC) as! MapVC
             mapVC.set(navigationTitle: "Map List")
             mapVC.set(stations: stations)
+        
+            for s in stationsR {
+                if let station = realm.object(ofType: StationRealm.self, forPrimaryKey: s.id) {
+                    DbHelper.shared.update(object: station)
+                } else {
+                    DbHelper.shared.add(object: s)
+                }
+            }
+            
             self.show(mapVC, sender: nil)
         }
     }
@@ -44,19 +53,38 @@ class MainVC: UIViewController {
         return stations
     }
     
-    private func fetchStations(completion: @escaping ([Station]) -> Void) {
+    private func parseDictRealm(stationData: [Any]) -> [StationRealm] {
+
+        var stations = [StationRealm]()
+        for st in stationData {
+            let stRealm = StationRealm()
+            stRealm.set(json: st as! [String : Any])
+            print(stRealm)
+//            DbHelper.shared.add(object: stRealm)
+            stations.append(stRealm)
+
+            print("======")
+        }
+        return stations
+        
+    }
+    
+    private func fetchStations(completion: @escaping ([Station], [StationRealm]) -> Void) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         DispatchQueue.global(qos: .background).async {
             
             //            sleep(1) // TODO: Unccoment on end. 
             var stationsLocal = [Station]()
+            var stationsLocalR = [StationRealm]()
+
             if let path = Bundle.main.path(forResource: "stationMOCList", ofType: "json") {
                 do {
                     let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                     let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
                     if let jsonResult = jsonResult as? Dictionary<String, AnyObject>, let stationData = jsonResult["stationData"] as? [Any] {
                         stationsLocal = self.parseDict(stationData: stationData)
+                        stationsLocalR = self.parseDictRealm(stationData: stationData)
                     }
                 } catch {
                     print("Error")
@@ -65,7 +93,7 @@ class MainVC: UIViewController {
             
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                completion(stationsLocal)
+                completion(stationsLocal, stationsLocalR)
             }
         }
     }

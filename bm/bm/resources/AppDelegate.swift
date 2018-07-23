@@ -14,7 +14,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        setRootViewController()
+        setRealmDBConfig()
+        startRealmDBInstance()
+        startRealmDBInstance()
        
         return true
     }
@@ -28,5 +30,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func getRootViewController() -> UIViewController {
         return UIStoryboard.mainVC
+    }
+    
+    // MARK: - Help
+    func setRealmDBConfig() {
+        DbHelper.shared.setRealmConfig()
+    }
+    
+    func startRealmDBInstance() {
+        DbHelper.shared.startRealmDBInstance()
     }
 }

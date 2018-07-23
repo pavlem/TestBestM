@@ -41,6 +41,11 @@ extension MapVC: MKMapViewDelegate {
                 let mTintView = view as! MKMarkerAnnotationView
                 mTintView.markerTintColor = UIColor.selectedStation
             }
+        } else {
+            if let ff = view as? MKAnnotation {
+                print(ff.coordinate.longitude)
+                print(ff.coordinate.latitude)
+            }
         }
     }
     

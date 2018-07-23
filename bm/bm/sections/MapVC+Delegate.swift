@@ -14,7 +14,7 @@ extension MapVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor().getRandomColor()
-        renderer.lineWidth = 5.0
+        renderer.lineWidth = 3.0
         return renderer
     }
     

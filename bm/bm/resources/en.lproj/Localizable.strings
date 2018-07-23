@@ -1,8 +1,6 @@
-
-// MARK: - Hero List
 "getStations" = "Tap To Fetch All Stations";
 "mapList" = "Map List";
-"fetchingPleaseWait" = "Fetching Please Wait...";
+"fetchingPleaseWait" = "Simulating Fetching Please Wait...";
 "waring" = "Warning";
 "maxVehicleNoReached" = "Max Number Of Vehicles Reached";
 "stats" = "Stats";

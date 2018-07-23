@@ -59,9 +59,9 @@ class MapEngine {
         mapView.add(route.polyline)
         let shortCoordinates = coordinates.extractArrayElements(withStep: coordinates.count / 20)
         let sourceLocation = coordinates.first!
-        let vh = Vehicle(id: getVehicleId(), name: getVehicleName(), image: UIImage(named: "busPin")!, latitude: sourceLocation.latitude, longitude: sourceLocation.longitude, route: shortCoordinates  as! [CLLocationCoordinate2D], polyline: route.polyline)
+        let vehicle = Vehicle(id: getVehicleId(), name: getVehicleName(), image: UIImage(named: "busPinSmall")!, latitude: sourceLocation.latitude, longitude: sourceLocation.longitude, route: shortCoordinates  as! [CLLocationCoordinate2D], polyline: route.polyline)
         vehicleId += 1
-        completion(vh)
+        completion(vehicle)
     }
     
     func removeVehicleAndRoute(mapView: MKMapView, vehicle: Vehicle) {

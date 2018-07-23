@@ -44,14 +44,6 @@ extension MapVC: MKMapViewDelegate {
         }
     }
     
-    func getRandomStation(fromStations stations: [Station], excludingStation: Station) -> Station? {
-        if let indexOfSelectedStation = stations.index(of: excludingStation) {
-            let randomStationInt = getRandomInteger(maximum: stations.count, notAllowedInt: indexOfSelectedStation)
-            return stations[randomStationInt]
-        }
-        return nil
-    }
-    
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         if view is MKMarkerAnnotationView {

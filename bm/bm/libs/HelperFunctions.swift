@@ -16,7 +16,6 @@ func logSelectedAnnotation(mapView: MKMapView, view: MKAnnotationView, stations:
 //        print("title: \(selectedStation.title ?? "")")
 //    }
 //    print("=========Selected OBJECT===========")
-
     if let selectedIndex = getSelectedIndex(forMarkerAnnotationView: view as! MKMarkerAnnotationView, mapView: mapView) {
         print("================")
         print("selected station index...\(selectedIndex)")

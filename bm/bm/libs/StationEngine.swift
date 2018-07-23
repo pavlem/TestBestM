@@ -10,10 +10,21 @@ import Foundation
 import UIKit
 import MapKit
 
-class StationEngine {
+struct VehicleStatistics {
+    var currentNumberOfVehicles: Int
+    var totalNumberOfVehiclesCreated: Int
+    var totalTimeInSeconds: Int
+}
 
-    var stations = [Station]()
+class StationEngine {
     
+    var vehStats = VehicleStatistics(currentNumberOfVehicles: 0, totalNumberOfVehiclesCreated: 0, totalTimeInSeconds: 0)
+    
+    func updateStats() {
+        vehStats.currentNumberOfVehicles = vehicles.count
+    }
+    
+    // MARK: - API
     func set(stations: [Station]) {
         self.stations = stations
     }
@@ -23,21 +34,21 @@ class StationEngine {
             handle(vehicle: vehicle) { (isVehicleAtDestination) in
                 completion(isVehicleAtDestination, vehicle)
             }
+            vehStats.totalTimeInSeconds += 1
         }
     }
 
-    
     func handle(vehicle: Vehicle, isVehicleAtDestination: (Bool) -> Void) {
         if vehicle.route.count == 0 {
             if let index = vehicles.index(of: vehicle) {
-//                mapEngine.removeVehicleAndRoute(mapView: self.mapView, vehicle: vehicle)
                 vehicles.remove(at: index)
                 isVehicleAtDestination(true)
             }
         } else {
             isVehicleAtDestination(false)
-//            mapEngine.updateMapForVehicle(mapView: self.mapView, vehicle: vehicle)
         }
+        
+        updateStats()
     }
     
     var vehicles = [Vehicle]()
@@ -57,4 +68,28 @@ class StationEngine {
         }
     }
     
+    func setRandomStation() {
+        self.randomStation = self.getRandomStation(fromStations: self.stations, excludingStation: self.selectedStation!)
+    }
+    
+    // MARK: - Properties
+    var currentNumberOfVehicles: Int {
+        return vehicles.count
+    }
+    var totalNumberOfVehiclesCreated = 0
+    var totalTimeInSeconds = 0
+    
+    
+    
+    private var stations = [Station]()
+    
+    
+    // MARK: - Helper
+    private func getRandomStation(fromStations stations: [Station], excludingStation: Station) -> Station? {
+        if let indexOfSelectedStation = stations.index(of: excludingStation) {
+            let randomStationInt = getRandomInteger(maximum: stations.count, notAllowedInt: indexOfSelectedStation)
+            return stations[randomStationInt]
+        }
+        return nil
+    }
 }

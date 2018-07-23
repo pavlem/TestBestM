@@ -77,7 +77,7 @@ class MapVC: UIViewController {
     
     private func setRefreshTimers() {
         vehicleRefreshTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshVehicleInfo), userInfo: nil, repeats: true)
-//        statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
+        statisticsRefreshTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshStatsInfo), userInfo: nil, repeats: true)
     }
     
     private func setNavBar() {
@@ -104,6 +104,7 @@ class MapVC: UIViewController {
     
     @objc func refreshStatsInfo(sender: Timer) {
         print("refreshStatsInfo")
+        print(stationEngine.vehStats)
     }
     
     @objc func createTravelAction(sender: UIBarButtonItem) {
@@ -111,18 +112,17 @@ class MapVC: UIViewController {
             AlertHelper.presentAlert(title: "Warning", message: "Max Number Of Vehicles Reached", onViewController: self)
             return
         }
-        setRandomStation()
+        
+        
+        stationEngine.setRandomStation()
         mapEngine.getRoute(source: sourceLocation, destination: destinationLocation, locationManager: locationManager, completion: { (route, coordinates) in
             self.mapEngine.createRoute(mapView:  self.mapView, route: route, coordinates: coordinates, completion: { (vehicle) in
                 self.stationEngine.vehicles.append(vehicle)
+                self.stationEngine.vehStats.totalNumberOfVehiclesCreated += 1
             })
         }, fail: { (isFail) in
             print("lgetRoute fail")
         })
-    }
-    
-    func setRandomStation() {
-        stationEngine.randomStation = getRandomStation(fromStations: stationEngine.stations, excludingStation: stationEngine.selectedStation!)
     }
 }
 

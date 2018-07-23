@@ -23,8 +23,8 @@ class StatisticView: UIView {
     
     private func updateUI() {
         statsTitle.text = statistics.title
-        currentVehicleNo.text = "currentNumberOfVehicles: " + String(statistics.currentNumberOfVehicles)
-        totalVehicleNo.text = "totalNumberOfVehiclesCreated: " + String(statistics.totalNumberOfVehiclesCreated)
-        totalVehicleTimeSpent.text = "totalTimeInSeconds: " + String(statistics.totalTimeInSeconds)
+        currentVehicleNo.text = "currentNumberOfVehicles".localized + ": " + String(statistics.currentNumberOfVehicles)
+        totalVehicleNo.text = "totalNumberOfVehiclesCreated".localized + ": "  + String(statistics.totalNumberOfVehiclesCreated)
+        totalVehicleTimeSpent.text = "totalTimeInSeconds".localized + ": " + String(statistics.totalTimeInSeconds)
     }
 }

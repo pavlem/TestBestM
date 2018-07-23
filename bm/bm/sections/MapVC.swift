@@ -96,8 +96,8 @@ class MapVC: UIViewController {
     }
     
     private func setNabBarBtns() {
-        let showHideStats = UIBarButtonItem(title: "Stats", style: .plain, target: self, action: #selector(showHideStatsAction))
-        let createBarBtn = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createTravelAction))
+        let showHideStats = UIBarButtonItem(title: "stats".localized, style: .plain, target: self, action: #selector(showHideStatsAction))
+        let createBarBtn = UIBarButtonItem(title: "create".localized, style: .plain, target: self, action: #selector(createTravelAction))
         createBarBtn.isEnabled = false
         navigationItem.rightBarButtonItems = [createBarBtn, showHideStats]
     }
@@ -125,7 +125,7 @@ class MapVC: UIViewController {
     
     @objc func createTravelAction(sender: UIBarButtonItem) {
         guard isMaxVehicleNumberReached else {
-            AlertHelper.presentAlert(title: "Warning", message: "Max Number Of Vehicles Reached", onViewController: self)
+            AlertHelper.presentAlert(title: "waring".localized, message: "maxVehicleNoReached".localized, onViewController: self)
             return
         }
         
@@ -138,7 +138,7 @@ class MapVC: UIViewController {
                 self.statsView.statistics = self.stationEngine.vehicleStats
             })
         }, fail: { (isFail) in
-            print("lgetRoute fail")
+            print("getRoute fail")
         })
     }
 }

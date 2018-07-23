@@ -25,29 +25,13 @@ class MainVC: UIViewController {
     @IBAction func getStations(_ sender: UIButton) {
         self.getStationsBtn.isEnabled = false
         
-        fetchStations { (stations) in
+        fetchStations { (stationsRealm) in
             DispatchQueue.main.async {
-                //                self.persistStations(stationsRealm: stationsRealm)
+                self.persistStations(stationsRealm: stationsRealm)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                
-                
-                
-                
-                let mapVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardID.mapVC) as! MapVC
-                mapVC.set(navigationTitle: "Map List")
-                mapVC.set(stations: stations)
-                self.show(mapVC, sender: nil)
+                self.showMapVC()
             }
-
         }
-        
-//        fetchStations { (stationsRealm) in
-//            DispatchQueue.main.async {
-////                self.persistStations(stationsRealm: stationsRealm)
-//                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//                self.showMapVC()
-//            }
-//        }
     }
     
     // MARK: - Helper
@@ -64,24 +48,13 @@ class MainVC: UIViewController {
         self.show(mapVC, sender: nil)
     }
     
-    private func fetchRealmStations(completion: @escaping ([StationRealm]) -> Void) {
+    private func fetchStations(completion: @escaping ([StationRealm]) -> Void) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         DispatchQueue.global(qos: .background).async {
-            //            sleep(1)
+            sleep(1)
             ParserHelper.getDataFromLocalJSON(completion: { (stationsRealm) in
                 completion(stationsRealm)
-            })
-        }
-    }
-    
-    private func fetchStations(completion: @escaping ([Station]) -> Void) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        
-        DispatchQueue.global(qos: .background).async {
-            //            sleep(1)
-            ParserHelper.getDataFromLocalJSON(completion: { (stations) in
-                completion(stations)
             })
         }
     }

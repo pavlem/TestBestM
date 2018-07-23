@@ -114,7 +114,6 @@ class MapVC: UIViewController {
     }
     
     @objc func refreshStatsInfo(sender: Timer) {
-        print(stationEngine.vehicleStats)
         DispatchQueue.main.async {
             self.statsView.statistics = self.stationEngine.vehicleStats
         }
@@ -135,6 +134,8 @@ class MapVC: UIViewController {
             self.mapEngine.createRoute(mapView:  self.mapView, route: route, coordinates: coordinates, completion: { (vehicle) in
                 self.stationEngine.vehicles.append(vehicle)
                 self.stationEngine.vehicleStats.totalNumberOfVehiclesCreated += 1
+                self.stationEngine.updateStats()
+                self.statsView.statistics = self.stationEngine.vehicleStats
             })
         }, fail: { (isFail) in
             print("lgetRoute fail")

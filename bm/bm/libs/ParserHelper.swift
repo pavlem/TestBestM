@@ -12,7 +12,7 @@ import RealmSwift
 
 class ParserHelper {
     
-//     MARK: - Parsing to Station objects - if needed
+    //     MARK: - Parsing to Station objects - if needed
     class func parseDict(stationData: [Any]) -> [Station] {
         var stations = [Station]()
         for st in stationData {
@@ -51,22 +51,6 @@ class ParserHelper {
                 if let jsonResult = jsonResult as? Dictionary<String, AnyObject>, let stationDictionaryData = jsonResult["stationData"] as? [Any] {
                     stationsRealm = self.parseDictionaryToRealmObject(stationData: stationDictionaryData)
                     completion(stationsRealm)
-                }
-            } catch {
-                print("Error")
-            }
-        }
-    }
-    
-    class func getDataFromLocalJSON(completion: ([Station]) -> Void) {
-        var stations = [Station]()
-        if let path = Bundle.main.path(forResource: "stationMOCList", ofType: "json") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
-                if let jsonResult = jsonResult as? Dictionary<String, AnyObject>, let stationDictionaryData = jsonResult["stationData"] as? [Any] {
-                    stations = self.parseDict(stationData: stationDictionaryData)
-                    completion(stations)
                 }
             } catch {
                 print("Error")

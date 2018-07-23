@@ -22,6 +22,7 @@ class MapVC: UIViewController {
     
     // MARK: - Properties
     // Outlets
+    @IBOutlet var statsView: StatisticView!
     @IBOutlet weak var mapView: MKMapView!
     // Vars
     private var stations = [Station]()
@@ -61,6 +62,7 @@ class MapVC: UIViewController {
         MapEngine.set(mapView: mapView, delegate: self, annotations: stations)
         stationEngine.set(stations: self.stations)
         setRefreshTimers()
+        setStatsView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -70,6 +72,14 @@ class MapVC: UIViewController {
     }
     
     // MARK: - Helper
+    private func setStatsView() {
+        statsView.statistics = stationEngine.vehicleStats
+        statsView.frame = CGRect(x: 0, y: 0, width: (view.frame.width * 4) / 5, height: 200)
+        statsView.isHidden = true
+        statsView.alpha = 0.6
+        view.addSubview(statsView)
+    }
+    
     private func invalidateTimers() {
         vehicleRefreshTimer?.invalidate()
         statisticsRefreshTimer?.invalidate()
@@ -82,13 +92,14 @@ class MapVC: UIViewController {
     
     private func setNavBar() {
         navigationItem.title = navigationTitle
-        setNabBarBtn()
+        setNabBarBtns()
     }
     
-    private func setNabBarBtn() {
+    private func setNabBarBtns() {
+        let showHideStats = UIBarButtonItem(title: "Stats", style: .plain, target: self, action: #selector(showHideStatsAction))
         let createBarBtn = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createTravelAction))
         createBarBtn.isEnabled = false
-        navigationItem.rightBarButtonItem = createBarBtn
+        navigationItem.rightBarButtonItems = [createBarBtn, showHideStats]
     }
     
     // MARK: - Actions
@@ -103,8 +114,14 @@ class MapVC: UIViewController {
     }
     
     @objc func refreshStatsInfo(sender: Timer) {
-        print("refreshStatsInfo")
-        print(stationEngine.vehStats)
+        print(stationEngine.vehicleStats)
+        DispatchQueue.main.async {
+            self.statsView.statistics = self.stationEngine.vehicleStats
+        }
+    }
+    
+    @objc func showHideStatsAction(sender: UIBarButtonItem) {
+        statsView.isHidden = !statsView.isHidden
     }
     
     @objc func createTravelAction(sender: UIBarButtonItem) {
@@ -113,12 +130,11 @@ class MapVC: UIViewController {
             return
         }
         
-        
         stationEngine.setRandomStation()
         mapEngine.getRoute(source: sourceLocation, destination: destinationLocation, locationManager: locationManager, completion: { (route, coordinates) in
             self.mapEngine.createRoute(mapView:  self.mapView, route: route, coordinates: coordinates, completion: { (vehicle) in
                 self.stationEngine.vehicles.append(vehicle)
-                self.stationEngine.vehStats.totalNumberOfVehiclesCreated += 1
+                self.stationEngine.vehicleStats.totalNumberOfVehiclesCreated += 1
             })
         }, fail: { (isFail) in
             print("lgetRoute fail")

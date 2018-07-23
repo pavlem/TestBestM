@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 import MapKit
 
-struct VehicleStatistics {
+struct Statistics {
+    var title: String
     var currentNumberOfVehicles: Int
     var totalNumberOfVehiclesCreated: Int
     var totalTimeInSeconds: Int
@@ -18,10 +19,10 @@ struct VehicleStatistics {
 
 class StationEngine {
     
-    var vehStats = VehicleStatistics(currentNumberOfVehicles: 0, totalNumberOfVehiclesCreated: 0, totalTimeInSeconds: 0)
+    var vehicleStats = Statistics(title: "Stats", currentNumberOfVehicles: 0, totalNumberOfVehiclesCreated: 0, totalTimeInSeconds: 0)
     
     func updateStats() {
-        vehStats.currentNumberOfVehicles = vehicles.count
+        vehicleStats.currentNumberOfVehicles = vehicles.count
     }
     
     // MARK: - API
@@ -34,7 +35,7 @@ class StationEngine {
             handle(vehicle: vehicle) { (isVehicleAtDestination) in
                 completion(isVehicleAtDestination, vehicle)
             }
-            vehStats.totalTimeInSeconds += 1
+            vehicleStats.totalTimeInSeconds += 1
         }
     }
 

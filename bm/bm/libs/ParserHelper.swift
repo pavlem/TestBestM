@@ -12,14 +12,9 @@ import RealmSwift
 
 class ParserHelper {
     
-    //     MARK: - Parsing to Station objects - if needed
+    // MARK: - Parsing to Station objects - if needed
     class func parseDict(stationData: [Any]) -> [Station] {
-        var stations = [Station]()
-        for st in stationData {
-            let stationObj = Station(json: st as! [String : Any])
-            stations.append(stationObj)
-        }
-        return stations
+        return stationData.map { Station(json: $0 as! [String : Any]) }
     }
     
     // MARK: - Parsing to Station Realm objects

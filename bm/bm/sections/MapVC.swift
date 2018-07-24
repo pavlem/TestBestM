@@ -73,15 +73,7 @@ class MapVC: UIViewController {
     // MARK: - Helper
     private func setUI() {
         setNavBar()
-        setStatsView()
-    }
-    
-    private func setStatsView() {
-        statsView.statistics = stationEngine.vehicleStats
-        statsView.frame = CGRect(x: 0, y: 0, width: (view.frame.width * 4) / 5, height: 200)
-        statsView.isHidden = true
-        statsView.alpha = 0
-        view.addSubview(statsView)
+        statsView.setStatsView(onViewController: self, vehicleStats: stationEngine.vehicleStats)
     }
     
     private func invalidateTimers() {

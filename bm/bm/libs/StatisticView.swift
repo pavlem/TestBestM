@@ -29,6 +29,20 @@ class StatisticView: UIView {
         }
     }
     
+    func setStatsView(onViewController vc: UIViewController, vehicleStats: Statistics) {
+        self.statistics = vehicleStats
+        self.frame = CGRect(x: 8, y: 74, width: (vc.view.frame.width * 4) / 5, height: 200)
+        self.isHidden = true
+        self.alpha = 0
+        vc.view.addSubview(self)
+    }
+    
+    // MARK: - Lifecycle
+    override func awakeFromNib() {
+        self.layer.cornerRadius = 10
+        self.layer.masksToBounds = true
+    }
+    
     // MARK: - Properties
     @IBOutlet weak var statsTitle: UILabel!
     @IBOutlet weak var currentVehicleNo: UILabel!

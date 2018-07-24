@@ -57,7 +57,7 @@ class MapEngine {
         mapView.add(route.polyline)
         let shortCoordinates = coordinates.extractArrayElements(withStep: coordinates.count / 20)
         let sourceLocation = coordinates.first!
-        let vehicle = Vehicle(id: getVehicleId(), name: getVehicleName(), image: UIImage(named: "busPinSmall")!, latitude: sourceLocation.latitude, longitude: sourceLocation.longitude, route: shortCoordinates  as! [CLLocationCoordinate2D], polyline: route.polyline)
+        let vehicle = Vehicle(id: getVehicleId(), name: getVehicleName(), image: UIImage.busPinSmall, latitude: sourceLocation.latitude, longitude: sourceLocation.longitude, route: shortCoordinates  as! [CLLocationCoordinate2D], polyline: route.polyline)
         vehicleId += 1
         completion(vehicle)
     }
@@ -86,6 +86,6 @@ class MapEngine {
     }
     
     private func getVehicleName() -> String {
-        return "Bus no: " + String(vehicleId)
+        return "BusNumber".localized + String(vehicleId)
     }
 }

@@ -8,3 +8,4 @@
 "currentNumberOfVehicles" = "Current Number Of Vehicles";
 "totalNumberOfVehiclesCreated" = "Total No Of Vehicles Created";
 "totalTimeInSeconds" = "Total time in s";
+"BusNumber" = "Bus no: ";

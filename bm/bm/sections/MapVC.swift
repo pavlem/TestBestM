@@ -131,26 +131,27 @@ class MapVC: UIViewController {
         
         guard isMaxVehicleNumberReached == false else {
             AlertHelper.presentAlert(title: "waring".localized, message: "maxVehicleNoReached".localized, onViewController: self)
-            self.createBtn.isEnabled = true
+            createBtn.isEnabled = true
             return
         }
         
-        self.createBtn.isEnabled = false
+        createBtn.isEnabled = false
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         stationEngine.setRandomStation()
-        mapEngine.getRoute(source: sourceLocation, destination: destinationLocation, locationManager: locationManager, completion: { (route, coordinates) in
-            
-            self.mapEngine.createRoute(mapView:  self.mapView, route: route, coordinates: coordinates, completion: { (vehicle) in
+        mapEngine.getRoute(source: sourceLocation, destination: destinationLocation, locationManager: locationManager, completion: { [weak self] (route, coordinates) in
+            guard let weakself = self else { return }
 
-                self.stationEngine.vehicles.append(vehicle)
-                self.stationEngine.vehicleStats.totalNumberOfVehiclesCreated += 1
-                self.stationEngine.updateStats()
-                self.statsView.statistics = self.stationEngine.vehicleStats
+            weakself.mapEngine.createRoute(mapView:  weakself.mapView, route: route, coordinates: coordinates, completion: { [weak self] (vehicle) in
+                guard let weakself = self else { return }
+                weakself.stationEngine.vehicles.append(vehicle)
+                weakself.stationEngine.vehicleStats.totalNumberOfVehiclesCreated += 1
+                weakself.stationEngine.updateStats()
+                weakself.statsView.statistics = weakself.stationEngine.vehicleStats
 
                 DispatchQueue.main.async {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    self.createBtn.isEnabled = true
+                    weakself.createBtn.isEnabled = true
                 }
             })
         }, fail: { (isFail) in

@@ -31,7 +31,7 @@ class StatisticView: UIView {
     
     func setStatsView(onViewController vc: UIViewController, vehicleStats: Statistics) {
         self.statistics = vehicleStats
-        self.frame = CGRect(x: 8, y: 74, width: (vc.view.frame.width * 4) / 5, height: 200)
+        self.frame = CGRect(x: 8, y: 72, width: (vc.view.frame.width * 4) / 5, height: 200)
         self.isHidden = true
         self.alpha = 0
         vc.view.addSubview(self)

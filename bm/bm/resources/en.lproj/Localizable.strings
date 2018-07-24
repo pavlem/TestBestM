@@ -6,7 +6,7 @@
 "stats" = "Stats";
 "statsTitle" = "- Stats -";
 "create" = "Create";
-"currentNumberOfVehicles" = "Current Number Of Vehicles: ";
-"totalNumberOfVehiclesCreated" = "Total No Of Vehicles Created: ";
+"currentNumberOfVehicles" = "Current Vehicles: ";
+"totalNumberOfVehiclesCreated" = "Vehicles Created: ";
 "totalTimeInSeconds" = "Total time: ";
 "BusNumber" = "Bus no: ";

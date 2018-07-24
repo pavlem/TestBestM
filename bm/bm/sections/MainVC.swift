@@ -30,11 +30,11 @@ class MainVC: UIViewController {
         activityIndicator.startAnimating()
         activityIndicator.isHidden = false
         
-        fetchStations { (stationsRealm) in
+        fetchStations { [weak self] (stationsRealm) in
             DispatchQueue.main.async {
-                self.persistStations(stationsRealm: stationsRealm)
+                self?.persistStations(stationsRealm: stationsRealm)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                self.showMapVC()
+                self?.showMapVC()
             }
         }
     }

@@ -68,7 +68,7 @@ class StationEngine {
     
     // MARK: - Helper
     func isMaxAllowedVehicleNumberReached(maxAllowed: Int) -> Bool {
-        if self.currentNumberOfVehicles == maxAllowed {
+        if self.currentNumberOfVehicles >= maxAllowed {
             return true
         }
         return false

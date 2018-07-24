@@ -188,10 +188,10 @@
 		9EEC69C720FB581F00B09525 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				9EEC699220FB440100B09525 /* AppDelegate.swift */,
 				9E72797821060FAC00340BEB /* Main.storyboard */,
 				9E72797E2106100600340BEB /* Localizable.strings */,
 				9EEC69D920FB7A1700B09525 /* stationMOCList.json */,
-				9EEC699220FB440100B09525 /* AppDelegate.swift */,
 				9EEC699920FB440300B09525 /* Assets.xcassets */,
 			);
 			path = resources;

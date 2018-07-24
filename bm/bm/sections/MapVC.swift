@@ -47,18 +47,8 @@ class MapVC: UIViewController {
     }
     
     // TODO: Refactor this to look better 
-    private var isMaxVehicleNumberReached: Bool {
-        aprint(stationEngine.currentNumberOfVehicles)
-        if stationEngine.currentNumberOfVehicles >= 10 {
-            return true
-        } else {
-            return false
-        }
-//        if stationEngine.isMaxAllowedVehicleNumberReached(maxAllowed: maxVehiclesAllowed) {
-//            return true
-//        } else {
-//            return false
-//        }
+    private var isMaxVehicleNumberReached: Bool {    
+        return stationEngine.isMaxAllowedVehicleNumberReached(maxAllowed: maxVehiclesAllowed) ? true : false
     }
     // Constants
     private let mapEngine = MapEngine()

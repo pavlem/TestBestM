@@ -21,3 +21,8 @@ func getRandomInteger(maximum: Int, notAllowedInt: Int) -> Int { //TODO: Unit Te
 func random(_ n: Int) -> Int {
     return Int(arc4random_uniform(UInt32(n)))
 }
+
+func aprint(_ any: Any, function: String = #function, file: String = #file, line: Int = #line) {
+    let fileName = file.lastPathComponent
+    print("🍏\(any)- - - - - - - - - - - - - - - - - - - - - \(fileName!) || \(function) || \(line)")
+}

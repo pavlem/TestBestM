@@ -24,7 +24,6 @@ class StationEngine {
         self.stations = stations
     }
     
-    
     func updateStats() {
         vehicleStats.currentNumberOfVehicles = vehicles.count
     }
@@ -40,8 +39,8 @@ class StationEngine {
 
     func handle(vehicle: Vehicle, isVehicleAtDestination: (Bool) -> Void) {
         if vehicle.route.count == 0 {
-            if let index = vehicles.index(of: vehicle) {
-                vehicles.remove(at: index)
+            if let index = self.vehicles.index(of: vehicle) {
+                self.vehicles.remove(at: index)
                 isVehicleAtDestination(true)
             }
         } else {
@@ -72,11 +71,10 @@ class StationEngine {
     
     
     // MARK: - Helper
-    func isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: Int, maxAllowed: Int) -> Bool {
-        if currentNumberOfVehicles == maxAllowed {
+    func isMaxAllowedVehicleNumberReached(maxAllowed: Int) -> Bool {
+        if self.currentNumberOfVehicles == maxAllowed {
             return true
         }
-        
         return false
     }
 

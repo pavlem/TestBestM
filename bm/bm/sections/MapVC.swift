@@ -46,10 +46,17 @@ class MapVC: UIViewController {
         return navigationItem.rightBarButtonItem!
     }
     private var isMaxVehicleNumberReached: Bool {
-        let isMaxAllowedVehicleNumberReached = stationEngine.isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: activeVehicles, maxAllowed: maxVehiclesAllowed)
-        
-        print(isMaxAllowedVehicleNumberReached)
-        return stationEngine.isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: activeVehicles, maxAllowed: maxVehiclesAllowed)
+        aprint(stationEngine.currentNumberOfVehicles)
+        if stationEngine.currentNumberOfVehicles >= 10 {
+            return true
+        } else {
+            return false
+        }
+//        if stationEngine.isMaxAllowedVehicleNumberReached(maxAllowed: maxVehiclesAllowed) {
+//            return true
+//        } else {
+//            return false
+//        }
     }
     // Constants
     private let mapEngine = MapEngine()
@@ -110,6 +117,8 @@ class MapVC: UIViewController {
         stationEngine.refreshVehicleStatus { (isDestinationReached, vehicle) in
             guard isDestinationReached == false else {
                 self.mapEngine.removeVehicleAndRoute(mapView: self.mapView, vehicle: vehicle)
+                self.stationEngine.updateStats()
+                self.statsView.statistics = self.stationEngine.vehicleStats
                 return
             }
             self.mapEngine.updateMapForVehicle(mapView: self.mapView, vehicle: vehicle)

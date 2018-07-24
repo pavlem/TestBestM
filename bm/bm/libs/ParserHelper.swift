@@ -29,12 +29,7 @@ class ParserHelper {
     }
     
     class func getStationObjectsFrom(stationsRealm: [StationRealm]) -> [Station] {
-        var stations = [Station]()
-        for stRealm in stationsRealm {
-            let st = Station(stationRealm: stRealm)
-            stations.append(st)
-        }
-        return stations
+        return stationsRealm.map { Station(stationRealm: $0) }
     }
     
     class func getDataFromLocalJSON(completion: ([StationRealm]) -> Void) {

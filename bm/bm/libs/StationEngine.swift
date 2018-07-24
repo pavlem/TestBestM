@@ -46,13 +46,11 @@ class StationEngine {
         } else {
             isVehicleAtDestination(false)
         }
-        
         updateStats()
     }
     
     var vehicleStats = Statistics(title: "Stats", currentNumberOfVehicles: 0, totalNumberOfVehiclesCreated: 0, totalTimeInSeconds: 0)
     var vehicles = [Vehicle]()
-
     var selectedStation: Station?
     var randomStation: Station?
     
@@ -66,9 +64,7 @@ class StationEngine {
     }
     var totalNumberOfVehiclesCreated = 0
     var totalTimeInSeconds = 0
-    
     private var stations = [Station]()
-    
     
     // MARK: - Helper
     func isMaxAllowedVehicleNumberReached(maxAllowed: Int) -> Bool {

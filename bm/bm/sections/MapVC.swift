@@ -45,6 +45,8 @@ class MapVC: UIViewController {
     var createBtn: UIBarButtonItem {
         return navigationItem.rightBarButtonItem!
     }
+    
+    // TODO: Refactor this to look better 
     private var isMaxVehicleNumberReached: Bool {
         aprint(stationEngine.currentNumberOfVehicles)
         if stationEngine.currentNumberOfVehicles >= 10 {
@@ -136,18 +138,28 @@ class MapVC: UIViewController {
     }
     
     @objc func createTravelAction(sender: UIBarButtonItem) {
+        
         guard isMaxVehicleNumberReached == false else {
             AlertHelper.presentAlert(title: "waring".localized, message: "maxVehicleNoReached".localized, onViewController: self)
+            self.createBtn.isEnabled = true
             return
         }
         
+        self.createBtn.isEnabled = false
+        
         stationEngine.setRandomStation()
         mapEngine.getRoute(source: sourceLocation, destination: destinationLocation, locationManager: locationManager, completion: { (route, coordinates) in
+            
             self.mapEngine.createRoute(mapView:  self.mapView, route: route, coordinates: coordinates, completion: { (vehicle) in
+
                 self.stationEngine.vehicles.append(vehicle)
                 self.stationEngine.vehicleStats.totalNumberOfVehiclesCreated += 1
                 self.stationEngine.updateStats()
                 self.statsView.statistics = self.stationEngine.vehicleStats
+
+                DispatchQueue.main.async {
+                    self.createBtn.isEnabled = true
+                }
             })
         }, fail: { (isFail) in
             print("getRoute fail")

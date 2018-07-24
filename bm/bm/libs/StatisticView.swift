@@ -9,11 +9,19 @@
 import UIKit
 
 class StatisticView: UIView {
-
-    @IBOutlet weak var statsTitle: UILabel!
-    @IBOutlet weak var currentVehicleNo: UILabel!
-    @IBOutlet weak var totalVehicleNo: UILabel!
-    @IBOutlet weak var totalVehicleTimeSpent: UILabel!
+    
+    // MARK: - API
+    func animateShowingOfStatsView(_ isShown: Bool) {
+        if isShown {
+            self.isHidden = true
+            self.alpha = 0
+        } else {
+            self.isHidden = false
+            UIView.animate(withDuration: 0.5) {
+                self.alpha = 0.5
+            }
+        }
+    }
     
     var statistics: Statistics! {
         didSet {
@@ -21,10 +29,17 @@ class StatisticView: UIView {
         }
     }
     
+    // MARK: - Properties
+    @IBOutlet weak var statsTitle: UILabel!
+    @IBOutlet weak var currentVehicleNo: UILabel!
+    @IBOutlet weak var totalVehicleNo: UILabel!
+    @IBOutlet weak var totalVehicleTimeSpent: UILabel!
+    
+    // MARK: - Private
     private func updateUI() {
         statsTitle.text = statistics.title
-        currentVehicleNo.text = "currentNumberOfVehicles".localized + ": " + String(statistics.currentNumberOfVehicles)
-        totalVehicleNo.text = "totalNumberOfVehiclesCreated".localized + ": "  + String(statistics.totalNumberOfVehiclesCreated)
-        totalVehicleTimeSpent.text = "totalTimeInSeconds".localized + ": " + String(statistics.totalTimeInSeconds)
+        currentVehicleNo.text = "currentNumberOfVehicles".localized + String(statistics.currentNumberOfVehicles)
+        totalVehicleNo.text = "totalNumberOfVehiclesCreated".localized + String(statistics.totalNumberOfVehiclesCreated)
+        totalVehicleTimeSpent.text = "totalTimeInSeconds".localized + String(statistics.totalTimeInSeconds) + "s"
     }
 }

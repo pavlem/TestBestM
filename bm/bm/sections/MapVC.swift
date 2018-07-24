@@ -22,7 +22,7 @@ class MapVC: UIViewController {
     
     // MARK: - Properties
     // Outlets
-    @IBOutlet var statsView: StatisticView!
+    @IBOutlet weak var statsView: StatisticView!
     @IBOutlet weak var mapView: MKMapView!
     // Vars
     private var stations = [Station]()
@@ -45,9 +45,7 @@ class MapVC: UIViewController {
     var createBtn: UIBarButtonItem {
         return navigationItem.rightBarButtonItem!
     }
-    
-    // TODO: Refactor this to look better 
-    private var isMaxVehicleNumberReached: Bool {    
+    private var isMaxVehicleNumberReached: Bool {
         return stationEngine.isMaxAllowedVehicleNumberReached(maxAllowed: maxVehiclesAllowed) ? true : false
     }
     // Constants
@@ -60,11 +58,10 @@ class MapVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavBar()
+        setUI()
         MapEngine.set(mapView: mapView, delegate: self, annotations: stations)
         stationEngine.set(stations: self.stations)
         setRefreshTimers()
-        setStatsView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -74,11 +71,16 @@ class MapVC: UIViewController {
     }
     
     // MARK: - Helper
+    private func setUI() {
+        setNavBar()
+        setStatsView()
+    }
+    
     private func setStatsView() {
         statsView.statistics = stationEngine.vehicleStats
         statsView.frame = CGRect(x: 0, y: 0, width: (view.frame.width * 4) / 5, height: 200)
         statsView.isHidden = true
-        statsView.alpha = 0.6
+        statsView.alpha = 0
         view.addSubview(statsView)
     }
     
@@ -124,11 +126,12 @@ class MapVC: UIViewController {
     }
     
     @objc func showHideStatsAction(sender: UIBarButtonItem) {
+        let isShown = statsView.isHidden ? false : true
         statsView.isHidden = !statsView.isHidden
+        statsView.animateShowingOfStatsView(isShown)
     }
     
     @objc func createTravelAction(sender: UIBarButtonItem) {
-        
         guard isMaxVehicleNumberReached == false else {
             AlertHelper.presentAlert(title: "waring".localized, message: "maxVehicleNoReached".localized, onViewController: self)
             createBtn.isEnabled = true

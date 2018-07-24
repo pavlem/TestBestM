@@ -4,8 +4,9 @@
 "waring" = "Warning";
 "maxVehicleNoReached" = "Max Number Of Vehicles Reached";
 "stats" = "Stats";
+"statsTitle" = "- Stats -";
 "create" = "Create";
-"currentNumberOfVehicles" = "Current Number Of Vehicles";
-"totalNumberOfVehiclesCreated" = "Total No Of Vehicles Created";
-"totalTimeInSeconds" = "Total time in s";
+"currentNumberOfVehicles" = "Current Number Of Vehicles: ";
+"totalNumberOfVehiclesCreated" = "Total No Of Vehicles Created: ";
+"totalTimeInSeconds" = "Total time: ";
 "BusNumber" = "Bus no: ";

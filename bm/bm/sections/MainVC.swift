@@ -67,7 +67,7 @@ class MainVC: UIViewController {
         feedbackLbl.isHidden = false
 
         DispatchQueue.global(qos: .background).async {
-            sleep(1)
+//            sleep(1)
             ParserHelper.getDataFromLocalJSON(completion: { (stationsRealm) in
                 completion(stationsRealm)
             })

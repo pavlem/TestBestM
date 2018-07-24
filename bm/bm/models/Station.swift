@@ -43,7 +43,7 @@ class Station: NSObject {
 extension Station {
     static func getStationMarkerAnnotation(mapView: MKMapView, andAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         let identationViewIdent = "stationID"
-        let glyphText = "B.M."
+        let glyphText = "Best_M"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identationViewIdent) as? MKMarkerAnnotationView
         if annotationView == nil {
             annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identationViewIdent)

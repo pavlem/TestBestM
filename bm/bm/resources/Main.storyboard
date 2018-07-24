@@ -31,18 +31,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RgY-73-LJg">
+                                <rect key="frame" x="169" y="287" width="37" height="37"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="7c3-0L-GE1" firstAttribute="centerY" secondItem="nB9-aa-vDo" secondAttribute="centerY" id="7bt-Fw-PXo"/>
+                            <constraint firstItem="mWQ-jD-4sb" firstAttribute="top" secondItem="RgY-73-LJg" secondAttribute="bottom" constant="-1" id="Ah3-QX-xle"/>
                             <constraint firstItem="7c3-0L-GE1" firstAttribute="centerX" secondItem="nB9-aa-vDo" secondAttribute="centerX" id="Ea6-d1-lQQ"/>
                             <constraint firstItem="mWQ-jD-4sb" firstAttribute="centerX" secondItem="nB9-aa-vDo" secondAttribute="centerX" id="aO1-LR-bUm"/>
+                            <constraint firstItem="RgY-73-LJg" firstAttribute="centerX" secondItem="nB9-aa-vDo" secondAttribute="centerX" id="jgq-wG-IpJ"/>
                             <constraint firstItem="7c3-0L-GE1" firstAttribute="top" secondItem="mWQ-jD-4sb" secondAttribute="bottom" constant="6.5" id="oeb-Ud-tQS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nB9-aa-vDo"/>
                     </view>
                     <navigationItem key="navigationItem" id="UKN-GO-L0U"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="RgY-73-LJg" id="icM-6z-ogF"/>
                         <outlet property="feedbackLbl" destination="mWQ-jD-4sb" id="y9J-SZ-8A4"/>
                         <outlet property="getStationsBtn" destination="7c3-0L-GE1" id="Efj-6k-2fG"/>
                         <segue destination="z8t-Nh-60X" kind="show" identifier="MapVC_Segue" id="jTY-1v-53G"/>

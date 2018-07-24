@@ -14,6 +14,7 @@ class MainVC: UIViewController {
     // Outlets
     @IBOutlet weak var getStationsBtn: UIButton!
     @IBOutlet weak var feedbackLbl: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
@@ -26,6 +27,8 @@ class MainVC: UIViewController {
     @IBAction func getStations(_ sender: UIButton) {
         getStationsBtn.isEnabled = false
         feedbackLbl.isHidden = true
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
         
         fetchStations { (stationsRealm) in
             DispatchQueue.main.async {
@@ -38,6 +41,8 @@ class MainVC: UIViewController {
     
     // MARK: - Helper
     private func setUI() {
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
         feedbackLbl.isHidden = true
         getStationsBtn.isEnabled = true
         getStationsBtn.setTitle("getStations".localized, for: .normal)
@@ -62,7 +67,7 @@ class MainVC: UIViewController {
         feedbackLbl.isHidden = false
 
         DispatchQueue.global(qos: .background).async {
-//            sleep(1)
+            sleep(1)
             ParserHelper.getDataFromLocalJSON(completion: { (stationsRealm) in
                 completion(stationsRealm)
             })

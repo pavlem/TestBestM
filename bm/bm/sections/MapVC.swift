@@ -146,6 +146,7 @@ class MapVC: UIViewController {
         }
         
         self.createBtn.isEnabled = false
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         stationEngine.setRandomStation()
         mapEngine.getRoute(source: sourceLocation, destination: destinationLocation, locationManager: locationManager, completion: { (route, coordinates) in
@@ -158,6 +159,7 @@ class MapVC: UIViewController {
                 self.statsView.statistics = self.stationEngine.vehicleStats
 
                 DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     self.createBtn.isEnabled = true
                 }
             })

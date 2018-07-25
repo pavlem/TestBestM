@@ -21,8 +21,9 @@ class MainVC: UIViewController {
         super.viewWillAppear(animated)
         
         setUI()
+        setUITestIdentifiers()
     }
-    
+
     // MARK: - Actions
     @IBAction func getStations(_ sender: UIButton) {
         getStationsBtn.isEnabled = false
@@ -48,6 +49,11 @@ class MainVC: UIViewController {
         getStationsBtn.setTitle("getStations".localized, for: .normal)
     }
     
+    private func setUITestIdentifiers() {
+        getStationsBtn.accessibilityLabel = UITestMainVC.fetchStationsBtn
+        activityIndicator.accessibilityLabel = UITestMainVC.loadingIndicator
+    }
+    
     private func persistStations(stationsRealm: [StationRealm]) {
         DbHelper.shared.persist(stations: stationsRealm)
     }
@@ -67,7 +73,7 @@ class MainVC: UIViewController {
         feedbackLbl.isHidden = false
 
         DispatchQueue.global(qos: .background).async {
-//            sleep(1)
+            sleep(1) // for network MOC purpose
             ParserHelper.getDataFromLocalJSON(completion: { (stationsRealm) in
                 completion(stationsRealm)
             })

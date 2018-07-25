@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E0194482108D82C0062E8C2 /* UITestsElementIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0194472108D82C0062E8C2 /* UITestsElementIdentifiers.swift */; };
+		9E0194492108D82C0062E8C2 /* UITestsElementIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0194472108D82C0062E8C2 /* UITestsElementIdentifiers.swift */; };
 		9E048BB62105E05600FBE90C /* DbHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E048BB52105E05600FBE90C /* DbHelper.swift */; };
 		9E048BB92105E38300FBE90C /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E048BB72105E38300FBE90C /* RealmSwift.framework */; };
 		9E048BBA2105E38300FBE90C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E048BB82105E38300FBE90C /* Realm.framework */; };
@@ -58,6 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9E0194472108D82C0062E8C2 /* UITestsElementIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITestsElementIdentifiers.swift; sourceTree = "<group>"; };
 		9E048BB52105E05600FBE90C /* DbHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DbHelper.swift; sourceTree = "<group>"; };
 		9E048BB72105E38300FBE90C /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		9E048BB82105E38300FBE90C /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
@@ -171,6 +174,7 @@
 		9EEC69B120FB440300B09525 /* bmUITests */ = {
 			isa = PBXGroup;
 			children = (
+				9E0194472108D82C0062E8C2 /* UITestsElementIdentifiers.swift */,
 				9EEC69B220FB440300B09525 /* bmUITests.swift */,
 				9EEC69B420FB440300B09525 /* Info.plist */,
 			);
@@ -409,6 +413,7 @@
 				9E3C127921049BBF000AFD82 /* MapEngine.swift in Sources */,
 				9E7279812106103000340BEB /* String+Extension.swift in Sources */,
 				9EEC69CB20FB588B00B09525 /* Station.swift in Sources */,
+				9E0194482108D82C0062E8C2 /* UITestsElementIdentifiers.swift in Sources */,
 				9E6C4C3A20FE77B600E57F10 /* UIStoryboard+Extension.swift in Sources */,
 				9E3C127D21049F52000AFD82 /* MapVC+Delegate.swift in Sources */,
 				9EEC69C320FB533B00B09525 /* MapVC.swift in Sources */,
@@ -433,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EEC69B320FB440300B09525 /* bmUITests.swift in Sources */,
+				9E0194492108D82C0062E8C2 /* UITestsElementIdentifiers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

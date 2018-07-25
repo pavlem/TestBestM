@@ -59,6 +59,7 @@ class MapVC: UIViewController {
         super.viewDidLoad()
         
         setUI()
+        setUITestIdentifiers()
         MapEngine.set(mapView: mapView, delegate: self, annotations: stations)
         stationEngine.set(stations: self.stations)
         setRefreshTimers()
@@ -74,6 +75,13 @@ class MapVC: UIViewController {
     private func setUI() {
         setNavBar()
         statsView.setStatsView(onViewController: self, vehicleStats: stationEngine.vehicleStats)
+    }
+    
+    private func setUITestIdentifiers() {
+        navigationItem.leftBarButtonItem?.accessibilityLabel = UITestMapVC.backBarBtn
+        navigationItem.rightBarButtonItems?.first?.accessibilityLabel = UITestMapVC.createBarBtn
+        navigationItem.rightBarButtonItems?.last?.accessibilityLabel = UITestMapVC.statsBarBtn
+        statsView.accessibilityLabel = UITestMapVC.statsView
     }
     
     private func invalidateTimers() {
@@ -94,8 +102,10 @@ class MapVC: UIViewController {
     private func setNabBarBtns() {
         let showHideStats = UIBarButtonItem(title: "stats".localized, style: .plain, target: self, action: #selector(showHideStatsAction))
         let createBarBtn = UIBarButtonItem(title: "create".localized, style: .plain, target: self, action: #selector(createTravelAction))
+        let backBarBtn = UIBarButtonItem(title: "back".localized, style: .plain, target: self, action: #selector(backAction))
         createBarBtn.isEnabled = false
         navigationItem.rightBarButtonItems = [createBarBtn, showHideStats]
+        navigationItem.leftBarButtonItem = backBarBtn
     }
     
     // MARK: - Actions
@@ -116,6 +126,10 @@ class MapVC: UIViewController {
             aprint(self.stationEngine.vehicleStats.totalDistance)
             self.statsView.statistics = self.stationEngine.vehicleStats
         }
+    }
+    
+    @objc func backAction(sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func showHideStatsAction(sender: UIBarButtonItem) {

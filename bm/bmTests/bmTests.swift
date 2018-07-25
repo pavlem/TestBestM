@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import MapKit
 @testable import bm
 
 class bmTests: XCTestCase {
@@ -38,10 +39,15 @@ class bmTests: XCTestCase {
     // MARK: - Station Engine
     func testIsMaxAllowedVehicleNumberReached() {
         let stEngine = StationEngine()
-//        XCTAssert(stEngine.isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: 10, maxAllowed: 10) == true, "🍊🍊, isMaxAllowedVehicleNumberReached not ok")
-//        XCTAssert(stEngine.isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: 9, maxAllowed: 10) == false, "🍊🍊, isMaxAllowedVehicleNumberReached not ok")
-//        XCTAssert(stEngine.isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: 3, maxAllowed: 10) == false, "🍊🍊, isMaxAllowedVehicleNumberReached not ok")
-//        XCTAssert(stEngine.isMaxAllowedVehicleNumberReached(currentNumberOfVehicles: 11, maxAllowed: 10) == false, "🍊🍊, isMaxAllowedVehicleNumberReached not ok")
+        let vehicle1 = Vehicle(id: "", name: "", image: UIImage(), latitude: 0.0, longitude: 0.0, route: [CLLocationCoordinate2D()], polyline: MKPolyline(), distance: 0.0)
+        let vehicle2 = Vehicle(id: "", name: "", image: UIImage(), latitude: 0.0, longitude: 0.0, route: [CLLocationCoordinate2D()], polyline: MKPolyline(), distance: 0.0)
+        let vehicle3 = Vehicle(id: "", name: "", image: UIImage(), latitude: 0.0, longitude: 0.0, route: [CLLocationCoordinate2D()], polyline: MKPolyline(), distance: 0.0)
+        let vehicles = [vehicle1, vehicle2, vehicle3]
+        stEngine.vehicles = vehicles
+        XCTAssert(stEngine.isMaxAllowedVehicleNumberReached(maxAllowed: 10) == false, "🍊🍊, isMaxAllowedVehicleNumberReached not ok")
+        XCTAssert(stEngine.isMaxAllowedVehicleNumberReached(maxAllowed: 3) == true, "🍊🍊, isMaxAllowedVehicleNumberReached not ok")
+        XCTAssert(stEngine.isMaxAllowedVehicleNumberReached(maxAllowed: 4) == false, "🍊🍊, isMaxAllowedVehicleNumberReached not ok")
+        XCTAssert(stEngine.isMaxAllowedVehicleNumberReached(maxAllowed: 2) == true, "🍊🍊, isMaxAllowedVehicleNumberReached not ok")
     }
     
     func testGetRandomStation() {
@@ -62,9 +68,9 @@ class bmTests: XCTestCase {
     // MARK: - StatisticView
     func testGetKmFromM() {
         let statsView = StatisticView()
-        XCTAssert(statsView.getKmFrom(meters: 1000) == "1.0 km", "🍊🍊, getRandomStation not ok")
-        XCTAssert(statsView.getKmFrom(meters: 1000.00) == "1.0 km", "🍊🍊, getRandomStation not ok")
-        XCTAssert(statsView.getKmFrom(meters: 1234) == "1.234 km", "🍊🍊, getRandomStation not ok")
-        XCTAssert(statsView.getKmFrom(meters: 5422.3) == "5.4223 km", "🍊🍊, getRandomStation not ok")
+        XCTAssert(statsView.getKmFrom(meters: 1000) == "1.0 km", "🍊🍊, getKmFrom not ok")
+        XCTAssert(statsView.getKmFrom(meters: 1000.00) == "1.0 km", "🍊🍊, getKmFrom not ok")
+        XCTAssert(statsView.getKmFrom(meters: 1234) == "1.234 km", "🍊🍊, getKmFrom not ok")
+        XCTAssert(statsView.getKmFrom(meters: 5422.3) == "5.4223 km", "🍊🍊, getKmFrom not ok")
     }
 }

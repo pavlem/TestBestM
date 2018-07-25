@@ -73,4 +73,25 @@ class bmTests: XCTestCase {
         XCTAssert(statsView.getKmFrom(meters: 1234) == "1.234 km", "🍊🍊, getKmFrom not ok")
         XCTAssert(statsView.getKmFrom(meters: 5422.3) == "5.4223 km", "🍊🍊, getKmFrom not ok")
     }
+    
+    // MARK: - ParserHelper
+    func getStationDictionaryData() -> [Any]? {
+        let path = Bundle.main.path(forResource: "stationMOCList", ofType: "json")!
+        let data = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+        let jsonResult = try! JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+        let jsonResultDict = jsonResult as? Dictionary<String, AnyObject>
+        return jsonResultDict!["stationData"] as? [Any]
+    }
+    
+    func testParseDictionaryToRealmStationObjects() {
+        let stationDictionaryData = getStationDictionaryData()
+        let stationsRealm = ParserHelper.parseDictionaryToRealmObject(stationData: stationDictionaryData!)
+        XCTAssert(stationsRealm.count == 5, "🍊🍊, parseDictionaryToRealmObject count not ok")
+    }
+    
+    func testParseDictionaryToStationObjects() {
+        let stationDictionaryData = getStationDictionaryData()
+        let stationsRealm = ParserHelper.parseDict(stationData: stationDictionaryData!)
+        XCTAssert(stationsRealm.count == 5, "🍊🍊, testParseDictionaryToStationObjects count not ok")
+    }
 }

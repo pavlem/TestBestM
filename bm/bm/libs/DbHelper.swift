@@ -82,24 +82,6 @@ extension DbHelper {
     func fetchAllStationsFromDB() -> [StationRealm] {
         return Array(realm.objects(StationRealm.self))
     }
-    
-//    func getFavoriteHeores() -> [HeroRealm]? {
-//        return Array(realm.objects(HeroRealm.self))
-//    }
-//
-//    func getPersistedHeroes() -> [Hero] {
-//        let heroesPersisted = DbHelper.shared.getFavoriteHeores()
-//
-//        var heroListPersisted = [Hero]()
-//        for heroP in heroesPersisted! {
-//            let thumbnail = Thumbnail(path: heroP.thumbnailPath, extension: heroP.thumbnailExtension)
-//
-//            let hero = Hero(id: Int(heroP.id), name: heroP.name, description: nil, modified: nil, thumbnail: thumbnail, resourceURI: nil, title: nil, comics: nil, series: nil, stories: nil, events: nil)
-//            heroListPersisted.append(hero)
-//        }
-//
-//        return heroListPersisted
-//    }
 }
 
 // MARK: - Project related

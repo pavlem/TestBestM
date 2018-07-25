@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 
 // Utility
-func getRandomInteger(maximum: Int, notAllowedInt: Int) -> Int { //TODO: Unit Test
+func getRandomInteger(maximum: Int, notAllowedInt: Int) -> Int {
     let randomInt = random(maximum)
     guard randomInt != notAllowedInt else {
         return getRandomInteger(maximum: maximum, notAllowedInt: notAllowedInt)

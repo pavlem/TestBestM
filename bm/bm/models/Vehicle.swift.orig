@@ -1,0 +1,70 @@
+//
+//  Vehicle.swift
+//  bm
+//
+//  Created by Pavle Mijatovic on 7/19/18.
+//  Copyright © 2018 Pavle Mijatovic. All rights reserved.
+//
+
+import Foundation
+import MapKit
+import UIKit
+
+class Vehicle: NSObject {
+    let id: String
+    let name: String
+    let image: UIImage
+<<<<<<< HEAD
+    var location: CLLocation
+    let polyline: MKPolyline
+    var route: [CLLocationCoordinate2D]
+    
+    init(id: String, name: String, image: UIImage, latitude: Double, longitude: Double, route: [CLLocationCoordinate2D], polyline: MKPolyline) {
+=======
+    let location: CLLocation
+    var route: [CLLocationCoordinate2D]
+    
+    init(id: String, name: String, image: UIImage, latitude: Double, longitude: Double, route: [CLLocationCoordinate2D]) {
+>>>>>>> 289394a736c263b50c94ddefb51a45f0e223ec04
+        self.id = id
+        self.name = name
+        self.image = image
+        self.location = CLLocation(latitude: latitude, longitude: longitude)
+        self.route = route
+<<<<<<< HEAD
+        self.polyline = polyline
+=======
+>>>>>>> 289394a736c263b50c94ddefb51a45f0e223ec04
+    }
+}
+
+extension Vehicle: MKAnnotation {
+    var coordinate: CLLocationCoordinate2D {
+        get {
+            return location.coordinate
+        }
+    }
+    var title: String? {
+        get {
+            return name
+        }
+    }
+}
+
+extension Vehicle {
+    static func getBUSMarkerAnnotation(mapView: MKMapView, andAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let identationViewIdent = "busID"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identationViewIdent)
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identationViewIdent)
+            if let vehicle = annotation as? Vehicle {
+                annotationView?.image = vehicle.image
+            }
+        } else {
+            if let vehicle = annotation as? Vehicle {
+                annotationView?.image = vehicle.image
+            }
+        }
+        return annotationView
+    }
+}

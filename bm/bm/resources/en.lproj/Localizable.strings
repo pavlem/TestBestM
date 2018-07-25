@@ -1,0 +1,16 @@
+"getStations" = "Tap To Fetch All Stations";
+"mapList" = "Map List";
+"fetchingPleaseWait" = "Simulating Fetching Please Wait...";
+"waring" = "Warning";
+"maxVehicleNoReached" = "Max Number Of Vehicles Reached";
+"stats" = "Stats";
+"statsTitle" = "- Stats -";
+"create" = "Create";
+"currentNumberOfVehicles" = "Current Vehicles: ";
+"totalNumberOfVehiclesCreated" = "Vehicles Created: ";
+"totalTimeInSeconds" = "Total time: ";
+"totalDistanceTraveled" = "Total distance traveled: ";
+"BusNumber" = "Bus no: ";
+"back" = "Back";
+
+

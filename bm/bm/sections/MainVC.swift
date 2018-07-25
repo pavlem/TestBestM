@@ -11,65 +11,76 @@ import UIKit
 class MainVC: UIViewController {
     
     // MARK: - Properties
-    // Vars
-    var stations = [Station]()
     // Outlets
     @IBOutlet weak var getStationsBtn: UIButton!
+    @IBOutlet weak var feedbackLbl: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.getStationsBtn.isEnabled = true
+        setUI()
+        setUITestIdentifiers()
     }
-    
+
     // MARK: - Actions
     @IBAction func getStations(_ sender: UIButton) {
-        self.getStationsBtn.isEnabled = false
+        setFetchingStationsUI()
         
-        fetchStations { (stations) in
-            let mapVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardID.mapVC) as! MapVC
-            mapVC.set(navigationTitle: "Map List PAJA")
-            mapVC.set(stations: stations)
-            self.show(mapVC, sender: nil)
+        fetchStations { [weak self] (stationsRealm) in
+            DispatchQueue.main.async {
+                self?.persistStations(stationsRealm: stationsRealm)
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self?.showMapVC()
+            }
         }
     }
     
     // MARK: - Helper
-    // TODO: - Move to parser file
-    private func parseDict(stationData: [Any]) -> [Station] {
-        var stations = [Station]()
-        for st in stationData {
-            let stationObj = Station(json: st as! [String : Any])
-            stations.append(stationObj)
-        }
-        return stations
+    private func setUI() {
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
+        feedbackLbl.isHidden = true
+        getStationsBtn.isEnabled = true
+        getStationsBtn.setTitle("getStations".localized, for: .normal)
     }
     
+    private func setFetchingStationsUI() {
+        getStationsBtn.isEnabled = false
+        feedbackLbl.isHidden = true
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
+    }
     
-    private func fetchStations(completion: @escaping ([Station]) -> Void) {
+    private func setUITestIdentifiers() {
+        getStationsBtn.accessibilityLabel = UITestMainVC.fetchStationsBtn
+        activityIndicator.accessibilityLabel = UITestMainVC.loadingIndicator
+    }
+    
+    private func persistStations(stationsRealm: [StationRealm]) {
+        DbHelper.shared.persist(stations: stationsRealm)
+    }
+    
+    private func showMapVC() {
+        let stationsRealm = DbHelper.shared.fetchAllStationsFromDB()
+        let stations = ParserHelper.getStationObjectsFrom(stationsRealm: stationsRealm)
+        let mapVC = UIStoryboard.mapVC as! MapVC
+        mapVC.set(navigationTitle: "mapList".localized)
+        mapVC.set(stations: stations)
+        self.show(mapVC, sender: nil)
+    }
+    
+    private func fetchStations(completion: @escaping ([StationRealm]) -> Void) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        
+        feedbackLbl.text = "fetchingPleaseWait".localized
+        feedbackLbl.isHidden = false
+
         DispatchQueue.global(qos: .background).async {
-            
-            sleep(1)
-            var stationsLocal = [Station]()            
-            if let path = Bundle.main.path(forResource: "stationMOCList", ofType: "json") {
-                do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                    let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
-                    if let jsonResult = jsonResult as? Dictionary<String, AnyObject>, let stationData = jsonResult["stationData"] as? [Any] {
-                        stationsLocal = self.parseDict(stationData: stationData)
-                    }
-                } catch {
-                    print("Error")
-                }
-            }
-            
-            DispatchQueue.main.async {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                completion(stationsLocal)
-            }
+            sleep(1) // for network MOC purpose
+            ParserHelper.getDataFromLocalJSON(completion: { (stationsRealm) in
+                completion(stationsRealm)
+            })
         }
     }
 }

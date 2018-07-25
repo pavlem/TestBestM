@@ -9,28 +9,62 @@
 import XCTest
 
 class bmUITests: XCTestCase {
-        
+    
+    var app: XCUIApplication!
+
     override func setUp() {
         super.setUp()
         
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        app = XCUIApplication()
+        app.launch()
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testIfFetchStationBtnExists() {
+        let btn = app.buttons[UITestMainVC.fetchStationsBtn]
+        XCTAssert(btn.exists == true, "🔥🔥 testFetchStations btn does not exist")
     }
     
+    func testIfCreateExists() {
+        login()
+        let createBtn = app.buttons[UITestMapVC.createBarBtn]
+        XCTAssert(createBtn.exists == true, "🔥🔥 backBtn btn does not exist")
+    }
+    
+    func testIfStatsExists() {
+        login()
+        let statsBtn = app.buttons[UITestMapVC.statsBarBtn]
+        XCTAssert(statsBtn.exists == true, "🔥🔥 backBtn btn does not exist")
+    }
+
+    func testFetchStationsAndGoback() {
+        login()
+        let backBtn = app.buttons[UITestMapVC.backBarBtn]
+        XCTAssert(backBtn.exists == true, "🔥🔥 backBtn btn does not exist")
+        backBtn.tap()
+    }
+    
+    func testStastBarBtnActionsAndStastisticsView() {
+        login()
+        
+        let statsBtn = app.buttons[UITestMapVC.statsBarBtn]
+        statsBtn.tap()
+        sleep(1)
+        let statsView = app.otherElements[UITestMapVC.statsView]
+        XCTAssert(statsView.exists == true, "🔥🔥 statsView btn does not exist")
+        statsBtn.tap()
+        XCTAssert(statsView.exists == false, "🔥🔥 statsView does not exist")
+    }
+    
+    // MARK: - Helper functions
+    private func login() {
+        let btn = app.buttons[UITestMainVC.fetchStationsBtn]
+        XCTAssert(btn.exists == true, "🔥🔥 testFetchStations btn does not exist")
+        btn.tap()
+        sleep(1)
+    }
 }

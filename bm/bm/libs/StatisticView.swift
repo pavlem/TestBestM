@@ -31,7 +31,7 @@ class StatisticView: UIView {
     
     func setStatsView(onViewController vc: UIViewController, vehicleStats: Statistics) {
         self.statistics = vehicleStats
-        self.frame = CGRect(x: 8, y: 72, width: (vc.view.frame.width * 4) / 5, height: 200)
+        self.frame = CGRect(x: 8, y: 72, width: (vc.view.frame.width * 4) / 5, height: 150)
         self.isHidden = true
         self.alpha = 0
         vc.view.addSubview(self)
@@ -48,6 +48,8 @@ class StatisticView: UIView {
     @IBOutlet weak var currentVehicleNo: UILabel!
     @IBOutlet weak var totalVehicleNo: UILabel!
     @IBOutlet weak var totalVehicleTimeSpent: UILabel!
+    @IBOutlet weak var totalDistanceTraveled: UILabel!
+
     
     // MARK: - Private
     private func updateUI() {
@@ -55,5 +57,11 @@ class StatisticView: UIView {
         currentVehicleNo.text = "currentNumberOfVehicles".localized + String(statistics.currentNumberOfVehicles)
         totalVehicleNo.text = "totalNumberOfVehiclesCreated".localized + String(statistics.totalNumberOfVehiclesCreated)
         totalVehicleTimeSpent.text = "totalTimeInSeconds".localized + String(statistics.totalTimeInSeconds) + "s"
+        totalDistanceTraveled.text = "totalDistanceTraveled".localized + getKmFrom(meters: statistics.totalDistance)
+    }
+    
+    func getKmFrom(meters: Double) -> String {
+        let lengthMeeters = Measurement(value: meters, unit: UnitLength.meters)
+        return String(describing: lengthMeeters.converted(to: .kilometers))
     }
 }

@@ -15,6 +15,7 @@ struct Statistics {
     var currentNumberOfVehicles: Int
     var totalNumberOfVehiclesCreated: Int
     var totalTimeInSeconds: Int
+    var totalDistance: Double
 }
 
 class StationEngine {
@@ -42,14 +43,16 @@ class StationEngine {
             if let index = self.vehicles.index(of: vehicle) {
                 self.vehicles.remove(at: index)
                 isVehicleAtDestination(true)
+                vehicleStats.totalDistance += vehicle.distance
             }
         } else {
             isVehicleAtDestination(false)
         }
+        
         updateStats()
     }
     
-    var vehicleStats = Statistics(title: "statsTitle".localized, currentNumberOfVehicles: 0, totalNumberOfVehiclesCreated: 0, totalTimeInSeconds: 0)
+    var vehicleStats = Statistics(title: "statsTitle".localized, currentNumberOfVehicles: 0, totalNumberOfVehiclesCreated: 0, totalTimeInSeconds: 0, totalDistance: 0)
     var vehicles = [Vehicle]()
     var selectedStation: Station?
     var randomStation: Station?

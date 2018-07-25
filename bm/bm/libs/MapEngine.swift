@@ -57,7 +57,7 @@ class MapEngine {
         mapView.add(route.polyline)
         let shortCoordinates = coordinates.extractArrayElements(withStep: coordinates.count / 20)
         let sourceLocation = coordinates.first!
-        let vehicle = Vehicle(id: getVehicleId(), name: getVehicleName(), image: UIImage.busPinSmall, latitude: sourceLocation.latitude, longitude: sourceLocation.longitude, route: shortCoordinates  as! [CLLocationCoordinate2D], polyline: route.polyline)
+        let vehicle = Vehicle(id: getVehicleId(), name: getVehicleName(), image: UIImage.busPinSmall, latitude: sourceLocation.latitude, longitude: sourceLocation.longitude, route: shortCoordinates  as! [CLLocationCoordinate2D], polyline: route.polyline, distance: route.distance)
         vehicleId += 1
         completion(vehicle)
     }

@@ -87,7 +87,7 @@
                     </connections>
                 </viewController>
                 <view contentMode="scaleToFill" id="elG-pp-d4b" customClass="StatisticView" customModule="bm" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="200"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7MZ-xz-Fip">
@@ -96,20 +96,26 @@
                             <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RG9-Qg-eB6">
-                            <rect key="frame" x="16" y="29" width="42" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="currentVehicleNo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RG9-Qg-eB6">
+                            <rect key="frame" x="16" y="29" width="171" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-dv-waF">
-                            <rect key="frame" x="16" y="58" width="42" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="totalVehicleNo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-dv-waF">
+                            <rect key="frame" x="16" y="58" width="171" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwi-en-tRS">
-                            <rect key="frame" x="16" y="87" width="42" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="totalVehicleTimeSpent" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwi-en-tRS">
+                            <rect key="frame" x="16" y="87" width="171" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="totalDistanceTraveled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nne-Ef-aHc">
+                            <rect key="frame" x="16" y="116" width="165" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -122,8 +128,10 @@
                         <constraint firstItem="RG9-Qg-eB6" firstAttribute="leading" secondItem="b74-WV-XbK" secondAttribute="leading" constant="16" id="BC7-DV-H1H"/>
                         <constraint firstItem="cwi-en-tRS" firstAttribute="trailing" secondItem="pF0-dv-waF" secondAttribute="trailing" id="D6w-gh-vAD"/>
                         <constraint firstItem="RG9-Qg-eB6" firstAttribute="top" secondItem="b74-WV-XbK" secondAttribute="top" constant="29" id="JdC-oe-TuK"/>
+                        <constraint firstItem="nne-Ef-aHc" firstAttribute="leading" secondItem="b74-WV-XbK" secondAttribute="leading" constant="16" id="So6-Wy-zPB"/>
                         <constraint firstItem="pF0-dv-waF" firstAttribute="trailing" secondItem="RG9-Qg-eB6" secondAttribute="trailing" id="Y7J-Pk-3uv"/>
                         <constraint firstItem="pF0-dv-waF" firstAttribute="top" secondItem="RG9-Qg-eB6" secondAttribute="bottom" constant="8" id="fQf-f9-xse"/>
+                        <constraint firstItem="nne-Ef-aHc" firstAttribute="top" secondItem="cwi-en-tRS" secondAttribute="bottom" constant="8" id="niJ-7R-H0M"/>
                         <constraint firstItem="cwi-en-tRS" firstAttribute="top" secondItem="pF0-dv-waF" secondAttribute="bottom" constant="8" id="ohw-kM-nBM"/>
                         <constraint firstItem="pF0-dv-waF" firstAttribute="leading" secondItem="b74-WV-XbK" secondAttribute="leading" constant="16" id="prX-f2-c2c"/>
                         <constraint firstItem="7MZ-xz-Fip" firstAttribute="top" secondItem="b74-WV-XbK" secondAttribute="top" id="qFf-Mk-Np7"/>
@@ -132,6 +140,7 @@
                     <connections>
                         <outlet property="currentVehicleNo" destination="RG9-Qg-eB6" id="Qnp-Mj-jKA"/>
                         <outlet property="statsTitle" destination="7MZ-xz-Fip" id="bqp-Um-o5s"/>
+                        <outlet property="totalDistanceTraveled" destination="nne-Ef-aHc" id="ukZ-jt-Fjg"/>
                         <outlet property="totalVehicleNo" destination="pF0-dv-waF" id="5W9-yE-Kny"/>
                         <outlet property="totalVehicleTimeSpent" destination="cwi-en-tRS" id="Dai-FY-2W6"/>
                     </connections>

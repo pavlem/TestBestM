@@ -9,4 +9,5 @@
 "currentNumberOfVehicles" = "Current Vehicles: ";
 "totalNumberOfVehiclesCreated" = "Vehicles Created: ";
 "totalTimeInSeconds" = "Total time: ";
+"totalDistanceTraveled" = "Total distance traveled: ";
 "BusNumber" = "Bus no: ";

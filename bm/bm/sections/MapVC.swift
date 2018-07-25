@@ -113,6 +113,7 @@ class MapVC: UIViewController {
     
     @objc func refreshStatsInfo(sender: Timer) {
         DispatchQueue.main.async {
+            aprint(self.stationEngine.vehicleStats.totalDistance)
             self.statsView.statistics = self.stationEngine.vehicleStats
         }
     }

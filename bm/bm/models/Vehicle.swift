@@ -17,14 +17,16 @@ class Vehicle: NSObject {
     var location: CLLocation
     let polyline: MKPolyline
     var route: [CLLocationCoordinate2D]
+    let distance: Double
     
-    init(id: String, name: String, image: UIImage, latitude: Double, longitude: Double, route: [CLLocationCoordinate2D], polyline: MKPolyline) {
+    init(id: String, name: String, image: UIImage, latitude: Double, longitude: Double, route: [CLLocationCoordinate2D], polyline: MKPolyline, distance: Double) {
         self.id = id
         self.name = name
         self.image = image
         self.location = CLLocation(latitude: latitude, longitude: longitude)
         self.route = route
         self.polyline = polyline
+        self.distance = distance
     }
 }
 

@@ -58,4 +58,13 @@ class bmTests: XCTestCase {
         XCTAssert(stEngine.getRandomStation(fromStations: stArray, excludingStation: st4) != st4, "🍊🍊, getRandomStation not ok")
         XCTAssert(stEngine.getRandomStation(fromStations: stArray, excludingStation: st5) != st5, "🍊🍊, getRandomStation not ok")
     }
+    
+    // MARK: - StatisticView
+    func testGetKmFromM() {
+        let statsView = StatisticView()
+        XCTAssert(statsView.getKmFrom(meters: 1000) == "1.0 km", "🍊🍊, getRandomStation not ok")
+        XCTAssert(statsView.getKmFrom(meters: 1000.00) == "1.0 km", "🍊🍊, getRandomStation not ok")
+        XCTAssert(statsView.getKmFrom(meters: 1234) == "1.234 km", "🍊🍊, getRandomStation not ok")
+        XCTAssert(statsView.getKmFrom(meters: 5422.3) == "5.4223 km", "🍊🍊, getRandomStation not ok")
+    }
 }

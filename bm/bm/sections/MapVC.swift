@@ -169,9 +169,3 @@ class MapVC: UIViewController {
         })
     }
 }
-
-extension MKMapView {
-    func visibleAnnotations() -> [MKAnnotation] {
-        return self.annotations(in: self.visibleMapRect).map { obj -> MKAnnotation in return obj as! MKAnnotation }
-    }
-}

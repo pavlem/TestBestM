@@ -26,10 +26,7 @@ class MainVC: UIViewController {
 
     // MARK: - Actions
     @IBAction func getStations(_ sender: UIButton) {
-        getStationsBtn.isEnabled = false
-        feedbackLbl.isHidden = true
-        activityIndicator.startAnimating()
-        activityIndicator.isHidden = false
+        setFetchingStationsUI()
         
         fetchStations { [weak self] (stationsRealm) in
             DispatchQueue.main.async {
@@ -47,6 +44,13 @@ class MainVC: UIViewController {
         feedbackLbl.isHidden = true
         getStationsBtn.isEnabled = true
         getStationsBtn.setTitle("getStations".localized, for: .normal)
+    }
+    
+    private func setFetchingStationsUI() {
+        getStationsBtn.isEnabled = false
+        feedbackLbl.isHidden = true
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
     }
     
     private func setUITestIdentifiers() {

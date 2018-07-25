@@ -33,9 +33,9 @@ extension MapVC: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        createBtn.isEnabled = true
         
         if let selectedStation = view.annotation as? Station {
+            createBtn.isEnabled = true
             stationEngine.selectedStation = selectedStation
             if view is MKMarkerAnnotationView {
                 let mTintView = view as! MKMarkerAnnotationView
